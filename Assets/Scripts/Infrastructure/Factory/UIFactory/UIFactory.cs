@@ -1,26 +1,48 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using KasherOriginal.AssetsAddressable;
+using Zenject;
 
 public class UIFactory : IUIFactory
 {
-    public UIFactory(IAssetsAddressableService assetsAddressableService)
+    public UIFactory(DiContainer container, IAssetsAddressableService assetsAddressableService)
     {
+        _container = container;
         _assetsAddressableService = assetsAddressableService;
     }
     
     private readonly IAssetsAddressableService _assetsAddressableService;
-    
-    public GameObject LoadingGameScreen { get; }
 
-    public Task<GameObject> CreateLoadingScreen()
+    private readonly DiContainer _container;
+    
+    public GameObject LoadingGameScreen { get; private set; }
+    public GameObject MainMenuScreen { get; private set; }
+
+    public async Task<GameObject> CreateLoadingScreen()
     {
-        //_assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.LOADING_LEVEL_NAME)
-        return null;
+        var loadingScreenPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.LOADING_SCREEN);
+
+        LoadingGameScreen = _container.InstantiatePrefab(loadingScreenPrefab);
+
+        return LoadingGameScreen;
     }
 
     public void DestroyLoadingScreen()
     {
-        throw new System.NotImplementedException();
+        Object.Destroy(LoadingGameScreen);
+    }
+
+    public async Task<GameObject> CreateMainMenuScreen()
+    {
+        var mainMenuPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.MAIN_MENU_SCREEN);
+
+        MainMenuScreen = _container.InstantiatePrefab(mainMenuPrefab);
+
+        return MainMenuScreen;
+    }
+
+    public void DestroyMainMenuScreen()
+    {
+        Object.Destroy(MainMenuScreen);
     }
 }
