@@ -1,4 +1,5 @@
 using UnityEngine.AddressableAssets;
+using KasherOriginal.AssetsAddressable;
 
 namespace KasherOriginal.GlobalStateMachine
 {
