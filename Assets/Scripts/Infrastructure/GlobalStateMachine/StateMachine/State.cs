@@ -1,4 +1,4 @@
-﻿namespace GlobalStateMachine
+﻿namespace KasherOriginal.GlobalStateMachine
 {
     public class State<TContext> : BaseState<TContext>
     {

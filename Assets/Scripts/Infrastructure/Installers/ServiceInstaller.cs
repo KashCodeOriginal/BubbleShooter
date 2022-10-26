@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Zenject;
+using KasherOriginal.AssetsAddressable;
 
-public class ServiceInstaller : MonoBehaviour
+public class ServiceInstaller : MonoInstaller
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public override void InstallBindings()
+    { 
+        BindAssetsAddressable();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void BindAssetsAddressable()
     {
-        
+        Container.BindInterfacesTo<AssetsAddressableService>().AsSingle();
     }
 }

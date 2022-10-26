@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using GlobalStateMachine;
-using UnityEngine;
-using Zenject;
+using System.Collections.Generic;
 
-namespace GlobalStateMachine
+namespace KasherOriginal.GlobalStateMachine
 {
     public class StateMachine<TContext>
     {
@@ -63,38 +60,4 @@ namespace GlobalStateMachine
             return _states[typeof(TState)] as TState;
         }
     }
-
-    public class BootstrapState : State<GameInstance>, IInitializable
-    {
-        public BootstrapState(GameInstance context) : base(context) { }
-
-        public void Initialize()
-        {
-            Context.StateMachine.SwitchState<SceneLoadingState>();
-        }
-    }
-    
-    public class SceneLoadingState : State<GameInstance>
-    {
-        public SceneLoadingState(GameInstance context) : base(context) { }
-
-        public override void Enter()
-        {
-            Debug.Log("1");
-        }
-    }
-}
-
-public class GameInstance
-{
-    public GameInstance()
-    {
-        StateMachine = new StateMachine<GameInstance>(this, 
-            new BootstrapState(this),
-            new SceneLoadingState(this));
-        
-        StateMachine.SwitchState<BootstrapState>();
-    }
-
-    public readonly StateMachine<GameInstance> StateMachine;
 }

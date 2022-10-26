@@ -1,5 +1,5 @@
 using Zenject;
-using GlobalStateMachine;
+using KasherOriginal.GlobalStateMachine;
 
 public class StatesInstaller : MonoInstaller
 {
