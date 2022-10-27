@@ -1,10 +1,14 @@
-using System.Threading.Tasks;
 using UnityEngine;
+using System.Threading.Tasks;
 
-public interface IUIFactory : IUIInfo
+namespace KasherOriginal.Factories.UIFactory
 {
-    public Task<GameObject> CreateLoadingScreen();
-    public void DestroyLoadingScreen();
-    public Task<GameObject> CreateMainMenuScreen();
-    public void DestroyMainMenuScreen();
+    public interface IUIFactory : IUIInfo
+    {
+        public Task<GameObject> CreateLoadingScreen();
+        public void DestroyLoadingScreen();
+        public Task<GameObject> CreateMainMenuScreen();
+        public void DestroyMainMenuScreen();
+    }
 }
+

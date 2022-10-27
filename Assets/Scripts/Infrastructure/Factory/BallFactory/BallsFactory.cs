@@ -43,7 +43,7 @@ namespace KasherOriginal.Factories.BallFactory
             
             _instances.Add(ballInstance);
     
-            //ToScene(ballInstance);
+            ToScene(ballInstance);
     
             return ballInstance;
         }

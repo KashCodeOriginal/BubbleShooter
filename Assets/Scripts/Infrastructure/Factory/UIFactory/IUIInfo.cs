@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public interface IUIInfo
+namespace KasherOriginal.Factories.UIFactory
 {
-    public GameObject LoadingGameScreen { get; }
-    public GameObject MainMenuScreen { get; }
+    public interface IUIInfo
+    {
+        public GameObject LoadingGameScreen { get; }
+        public GameObject MainMenuScreen { get; }
+    }
 }
+

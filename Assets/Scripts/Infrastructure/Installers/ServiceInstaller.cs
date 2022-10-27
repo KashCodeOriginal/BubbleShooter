@@ -1,13 +1,15 @@
 using Zenject;
 using KasherOriginal.AssetsAddressable;
+using KasherOriginal.Factories.UIFactory;
 using KasherOriginal.Factories.BallFactory;
 
 public class ServiceInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        BindUIFabric();
-        BindBallsFabric();
+        BindUIFactory();
+        BindBallsFactory();
+        
         BindAssetsAddressable();
     }
 
@@ -16,13 +18,18 @@ public class ServiceInstaller : MonoInstaller
         Container.BindInterfacesTo<AssetsAddressableService>().AsSingle();
     }
 
-    private void BindUIFabric()
+    private void BindUIFactory()
     {
         Container.BindInterfacesTo<UIFactory>().AsSingle();
     }
 
-    private void BindBallsFabric()
+    private void BindBallsFactory()
     {
         Container.BindInterfacesTo<BallsFactory>().AsSingle();
+    }
+
+    private void BindAbstractFactory()
+    {
+        Container.BindInterfacesTo<AbstractFactory>().AsSingle();
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Zenject;
 using UnityEngine;
 using KasherOriginal.Factories.BallFactory;
@@ -12,24 +13,20 @@ public class BallSpawner : MonoBehaviour
     
     [SerializeField] private BallColorDecorator[] _ballColorDecorators;
 
+    [SerializeField] private Transform _spawnPosition;
+
     private IBallsFactory _ballsFactory;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            CreateBall(Vector3.one);
-        }
-    }
-
-    public async void CreateBall(Vector3 position)
+    public async Task<GameObject> CreateBall()
     {
         if (!isActiveAndEnabled)
         {
-            return;
+            return null;
         }
 
-        GameObject ballInstance = await _ballsFactory.CreateInstance(position, _ballColorDecorators[GetRandomValue(0, _ballColorDecorators.Length)]);
+        GameObject ballInstance = await _ballsFactory.CreateInstance(_spawnPosition.position, _ballColorDecorators[GetRandomValue(0, _ballColorDecorators.Length)]);
+
+        return ballInstance;
     }
     
     private int GetRandomValue(int startValue, int endValue)
