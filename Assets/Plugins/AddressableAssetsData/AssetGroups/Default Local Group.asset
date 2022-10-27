@@ -38,7 +38,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76f80dd0f26172747b0ad1020f125a42
-    m_Address: FirstLevel
+    m_Address: GameplayLevel
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -49,6 +49,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a845679bee1f8e7468dc248aed085a81
     m_Address: Cannon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f327c1aee87cc594f9a250f99f1b2308
+    m_Address: BaseMap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b808daa8fb796741bcec7472cd01311
+    m_Address: CannonControl
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

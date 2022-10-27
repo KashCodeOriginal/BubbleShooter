@@ -17,10 +17,10 @@ namespace KasherOriginal.GlobalStateMachine
         {
             ShowUI();
             
-            var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.FIRST_GAME_LEVEL_NAME);
+            var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.GAMEPLAY_LEVEL_NAME);
             await asyncOperationHandle.Task;
             
-            Context.StateMachine.SwitchState<GameplayState>();
+            Context.StateMachine.SwitchState<SetUpGameplayState>();
         }
 
         public override void Exit()

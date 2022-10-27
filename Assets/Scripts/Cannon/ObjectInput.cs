@@ -5,20 +5,24 @@ public class ObjectInput : MonoBehaviour
 {
     public event UnityAction OnRotateEnded;
     
-    private ObjectRotate _objectRotate;
+    private IRotatable _rotatable;
+
+    private Vector2 _currentMousePosition;
+
+    public Vector2 CurrentMousePosition => _currentMousePosition;
 
     private void Start()
     {
-        _objectRotate = GetComponent<ObjectRotate>();
+        _rotatable = GetComponent<IRotatable>();
     }
 
     private void OnMouseDrag()
     {
         Vector2 mouse = Input.mousePosition;
 
-        Vector2 currentPosition = Camera.main.ScreenToWorldPoint(mouse);
+        _currentMousePosition = Camera.main.ScreenToWorldPoint(mouse);
         
-        _objectRotate.Rotate(currentPosition);
+        _rotatable.Rotate(_currentMousePosition);
     }
 
     private void OnMouseUp()

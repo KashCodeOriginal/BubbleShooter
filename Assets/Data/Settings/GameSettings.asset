@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9d9ab7c6b846409cd0451c37156821, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  _cannonInstancePosition: {x: 0, y: -5, z: 0}
+  _baseMapPosition: {x: -2.67, y: 0, z: 0}
+  _cannonRotationSpeed: 700
+  _ballMovementSpeed: 10
+  _maxBallWallsCollides: 3
+  _targetFPS: 60

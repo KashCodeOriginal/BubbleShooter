@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2405205746825827236}
   - component: {fileID: 2405205746825827240}
   m_Layer: 0
-  m_Name: CannonControll
+  m_Name: CannonControl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
