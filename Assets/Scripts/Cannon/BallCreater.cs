@@ -11,7 +11,7 @@ public class BallCreater : MonoBehaviour
     {
         _ballSpawner = GetComponent<BallSpawner>();
         
-        _objectInput.OnRotateEnded += CreateBall;
+        CreateBall();
     }
 
     public void Construct(ObjectInput objectInput, GameObject cannon)
@@ -23,27 +23,18 @@ public class BallCreater : MonoBehaviour
     private async void CreateBall()
     {
         var ball = await _ballSpawner.CreateBall();
+        
+        //ball.transform.SetParent(gameObject.transform);
 
         if (ball.TryGetComponent(out IMovable movable))
         {
-            movable.SetMovingDirection(CreateBallMoveDirection());
+            movable.SetUp(_objectInput, _cannon);
+        }
+
+        if (ball.TryGetComponent(out BallCollides ballCollides))
+        {
+            ballCollides.OnBallDestroyed += CreateBall;
         }
     }
 
-    private Vector2 CreateBallMoveDirection()
-    {
-        var mousePosition = _objectInput.CurrentMousePosition;
-        
-        var cannonPosition = _cannon.transform.position;
-        var currentCannonPosition = new Vector2(cannonPosition.x, cannonPosition.y);
-
-        var direction = mousePosition - currentCannonPosition;
-        
-        return direction.normalized;
-    }
-    
-    private void OnDisable()
-    {
-        _objectInput.OnRotateEnded -= CreateBall;
-    }
 }

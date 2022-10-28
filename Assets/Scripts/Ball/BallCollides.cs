@@ -1,5 +1,6 @@
 using Zenject;
 using UnityEngine;
+using UnityEngine.Events;
 using KasherOriginal.Settings;
 
 public class BallCollides : MonoBehaviour
@@ -9,6 +10,8 @@ public class BallCollides : MonoBehaviour
     {
         _gameSettings = gameSettings;
     }
+
+    public event UnityAction OnBallDestroyed;
 
     private GameSettings _gameSettings;
     private IMovable _movable;
@@ -24,20 +27,20 @@ public class BallCollides : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (!col.gameObject.CompareTag("Ball"))
+        if (_collidesCount >= _gameSettings.MaxBallWallsCollider)
         {
-            if (_collidesCount >= _gameSettings.MaxBallWallsCollider)
-            {
-                Destroy(gameObject);
-                return;
-            }
-        
-            _collidesCount++;
-        
-            if (col.gameObject.CompareTag("Wall"))
-            {
-                _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
-            }
+            Destroy(gameObject);
+                
+            OnBallDestroyed?.Invoke();
+                
+            return;
+        }
+            
+        _collidesCount++;
+
+        if (col.gameObject.CompareTag("Wall"))
+        {
+            _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
         }
     }
 }
