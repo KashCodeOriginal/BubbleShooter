@@ -18,6 +18,7 @@ public class ServiceInstaller : MonoInstaller
         BindAbstractFactory();
         BindAssetsAddressable();
         BindCellMatrixWatcher();
+        BindBallInstancesWatcher();
     }
 
     private void BindAssetsAddressable()
@@ -53,5 +54,10 @@ public class ServiceInstaller : MonoInstaller
     private void BindCellMatrixWatcher()
     {
         Container.BindInterfacesTo<CellsMatrixWatcher>().AsSingle();
+    }
+    
+    private void BindBallInstancesWatcher()
+    {
+        Container.BindInterfacesTo<BallInstancesWatcher>().AsSingle();
     }
 }

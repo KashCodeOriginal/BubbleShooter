@@ -17,11 +17,17 @@ namespace KasherOriginal.Settings
 
         [SerializeField] private int _targetFPS;
 
+        [SerializeField] private int _minBallsAmount;
+        [SerializeField] private int _maxBallsAmount;
+
         public Vector3 CannonInstancePosition => _cannonInstancePosition;
         public Vector3 BaseMapPosition => _baseMapPosition;
         public float CannonRotationSpeed => _cannonRotationSpeed;
         public int BallMovementSpeed => _ballMovementSpeed;
         public int MaxBallWallsCollider => _maxBallWallsCollides;
+        
+        public int MinBallsAmount => _minBallsAmount;
+        public int MaxBallsAmount => _maxBallsAmount;
 
         private void OnEnable()
         {

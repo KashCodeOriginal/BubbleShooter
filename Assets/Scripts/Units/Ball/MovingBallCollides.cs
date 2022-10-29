@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using KasherOriginal.Settings;
 
-public class MovingMovingBallCollides : MonoBehaviour, IMovingBallCollides
+public class MovingBallCollides : MonoBehaviour, IDestroyable
 {
     [Inject]
     public void Construct(GameSettings gameSettings)
@@ -16,6 +16,8 @@ public class MovingMovingBallCollides : MonoBehaviour, IMovingBallCollides
     private GameSettings _gameSettings;
     private IMovable _movable;
 
+    private bool _canCollide;
+
     private int _collidesCount;
 
 
@@ -24,38 +26,27 @@ public class MovingMovingBallCollides : MonoBehaviour, IMovingBallCollides
         _movable = GetComponent<IMovable>();
 
         _collidesCount = 0;
+
+        _canCollide = true;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("StaticBall"))
+        if (_canCollide)
         {
-            Destroy(gameObject);
-                
-            OnBallDestroyed?.Invoke();
-                
-            return;
-        }
-        
-        if (_collidesCount >= _gameSettings.MaxBallWallsCollider)
-        {
-            Destroy(gameObject);
-                
-            OnBallDestroyed?.Invoke();
-                
-            return;
-        }
+            if (col.gameObject.CompareTag("StaticBall") || _collidesCount >= _gameSettings.MaxBallWallsCollider)
+            {
+                OnBallDestroyed?.Invoke();
+                _canCollide = false;
+                return;
+            }
             
-        _collidesCount++;
+            _collidesCount++;
 
-        if (col.gameObject.CompareTag("Wall"))
-        {
-            _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
+            if (col.gameObject.CompareTag("Wall"))
+            {
+                _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
+            }
         }
     }
-}
-
-public interface IMovingBallCollides
-{
-    public event UnityAction OnBallDestroyed;
 }

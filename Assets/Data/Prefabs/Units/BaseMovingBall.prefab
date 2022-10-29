@@ -11,11 +11,15 @@ GameObject:
   - component: {fileID: 2055409234295452681}
   - component: {fileID: 7506153247570225792}
   - component: {fileID: -1097358326568513672}
+  - component: {fileID: 7467644616224638752}
   - component: {fileID: -5020715579782325571}
   - component: {fileID: -4348477737089141531}
   - component: {fileID: -3024296927365164221}
-  - component: {fileID: 8144721576329576473}
   - component: {fileID: 2981397297131244836}
+  - component: {fileID: -6765561050792433271}
+  - component: {fileID: -5737864367793057918}
+  - component: {fileID: 8814392700488539381}
+  - component: {fileID: 1434974001408715811}
   m_Layer: 0
   m_Name: BaseMovingBall
   m_TagString: MovingBall
@@ -34,7 +38,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3327837180066048187}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,9 +108,25 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.6, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
+--- !u!58 &7467644616224638752
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.6, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!50 &-5020715579782325571
 Rigidbody2D:
   serializedVersion: 4
@@ -152,18 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01671ea4123e46d0b93bd2a53f6d4b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8144721576329576473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2171038527491075298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76ca38aae1ba765478f8fd359109a378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &2981397297131244836
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -180,3 +189,90 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-6765561050792433271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ca38aae1ba765478f8fd359109a378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5737864367793057918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6adbc9616010e5a49971f87841a16310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &8814392700488539381
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.6}
+  serializedVersion: 2
+  m_Radius: 0.1
+--- !u!58 &1434974001408715811
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.6}
+  serializedVersion: 2
+  m_Radius: 0.1
+--- !u!1 &3806901057350973375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3327837180066048187}
+  m_Layer: 0
+  m_Name: Ball
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3327837180066048187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806901057350973375}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2055409234295452681}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

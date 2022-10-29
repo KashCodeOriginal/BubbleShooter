@@ -140,5 +140,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32e9df5a610e4146889149403dde711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _distance: 0.5
-  _centerPosition: {x: -1.3, y: 2, z: 0}
+  _distance: 0.53
+  _centerPosition: {x: -2.15, y: 4.7, z: 0}

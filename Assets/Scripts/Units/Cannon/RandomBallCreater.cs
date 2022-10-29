@@ -24,14 +24,14 @@ public class RandomBallCreater : MonoBehaviour
     {
         var ball = await _ballSpawner.CreateRandomDecoratableBall();
         
-        //ball.transform.SetParent(gameObject.transform);
+        ball.transform.SetParent(_cannon.transform);
 
         if (ball.TryGetComponent(out IMovable movable))
         {
             movable.SetUp(_objectInput, _cannon);
         }
 
-        if (ball.TryGetComponent(out MovingMovingBallCollides ballCollides))
+        if (ball.TryGetComponent(out MovingBallCollides ballCollides))
         {
             ballCollides.OnBallDestroyed += CreateBall;
         }
