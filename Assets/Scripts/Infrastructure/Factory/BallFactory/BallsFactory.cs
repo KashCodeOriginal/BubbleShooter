@@ -27,11 +27,18 @@ namespace KasherOriginal.Factories.BallFactory
             get => _instances;
         }
     
-        public async Task<GameObject> CreateInstance(Vector3 position, params BallDecorator[] decorators)
+        public async Task<GameObject> CreateDecoratableInstance(Vector3 position, bool isInstanceMovable, params BallDecorator[] decorators)
         {
             BallConfig ballConfig;
-    
-            ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_BALL_CONFIG);
+
+            if (isInstanceMovable)
+            {
+               ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_MOVING_BALL_CONFIG);
+            }
+            else
+            {
+                ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_STATIC_BALL_CONFIG);
+            }
     
             BallStats ballStats = GetStatsFromBall(ballConfig);
     
@@ -47,7 +54,7 @@ namespace KasherOriginal.Factories.BallFactory
     
             return ballInstance;
         }
-    
+
         public void DestroyInstance(GameObject instance)
         {
             if (instance == null)

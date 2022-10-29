@@ -5,6 +5,6 @@ namespace KasherOriginal.Factories.BallFactory
 {
     public interface IBallsFactory : IFactory, IBallsInfo
     {
-        public Task<GameObject> CreateInstance(Vector3 position, params BallDecorator[] decorators);
+        public Task<GameObject> CreateDecoratableInstance(Vector3 position, bool isInstanceMovable, params BallDecorator[] decorators);
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0fe0842186c0742af0c55e4a3c9275, type: 3}
+  m_Name: StaticBallBaseConfig
+  m_EditorClassIdentifier: 
+  _color: {r: 0, g: 0, b: 0, a: 0}
+  _ballType: 0
+  _prefab: {fileID: 2171038527491075298, guid: f581ac1b59f1ce940ba30f061d367477, type: 3}

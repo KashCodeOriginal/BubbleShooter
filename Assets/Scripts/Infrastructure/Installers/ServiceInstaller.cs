@@ -14,8 +14,10 @@ public class ServiceInstaller : MonoInstaller
         BindUIFactory();
         BindGameSettings();
         BindBallsFactory();
+        BindBallRelation();
         BindAbstractFactory();
         BindAssetsAddressable();
+        BindCellMatrixWatcher();
     }
 
     private void BindAssetsAddressable()
@@ -41,5 +43,15 @@ public class ServiceInstaller : MonoInstaller
     private void BindGameSettings()
     {
         Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
+    }
+    
+    private void BindBallRelation()
+    {
+        Container.BindInterfacesTo<BallTypesRelation>().AsSingle();
+    }
+
+    private void BindCellMatrixWatcher()
+    {
+        Container.BindInterfacesTo<CellsMatrixWatcher>().AsSingle();
     }
 }

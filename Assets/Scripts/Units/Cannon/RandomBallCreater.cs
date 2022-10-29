@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BallCreater : MonoBehaviour
+public class RandomBallCreater : MonoBehaviour
 {
     private BallSpawner _ballSpawner;
     private ObjectInput _objectInput;
@@ -22,7 +22,7 @@ public class BallCreater : MonoBehaviour
 
     private async void CreateBall()
     {
-        var ball = await _ballSpawner.CreateBall();
+        var ball = await _ballSpawner.CreateRandomDecoratableBall();
         
         //ball.transform.SetParent(gameObject.transform);
 

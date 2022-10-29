@@ -23,18 +23,21 @@ namespace KasherOriginal.GlobalStateMachine
         {
             var mapPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.BASE_MAP);
             var cannonPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.CANNON);
-            var cannonControl = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.CANNON_CONTROL);
+            var cannonControlPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.CANNON_CONTROL);
+            var levelBuilderPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.LEVEL_BUILDER);
 
-            var cannonControlInstance = _abstractFactory.CreateInstance(cannonControl, Vector3.zero);
+            var cannonControlInstance = _abstractFactory.CreateInstance(cannonControlPrefab, Vector3.zero);
             var cannonInstance = _abstractFactory.CreateInstance(cannonPrefab, _gameSettings.CannonInstancePosition);
             var mapInstance = _abstractFactory.CreateInstance(mapPrefab, _gameSettings.BaseMapPosition);
+            var levelBuilderInstance = _abstractFactory.CreateInstance(levelBuilderPrefab, Vector3.zero);
+            
 
-            SetUp(cannonInstance, cannonControlInstance);
+            SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance);
             
             Context.StateMachine.SwitchState<GameplayState>();
         }
 
-        private void SetUp(GameObject cannon, GameObject cannonControl)
+        private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder)
         {
             if (cannonControl.TryGetComponent(out IRotatable rotatable))
             {
@@ -43,7 +46,7 @@ namespace KasherOriginal.GlobalStateMachine
 
             if (cannonControl.TryGetComponent(out ObjectInput objectInput))
             {
-                cannon.GetComponentInChildren<BallCreater>().Construct(objectInput, cannon);
+                levelBuilder.GetComponentInChildren<RandomBallCreater>().Construct(objectInput, cannon);
             }
         }
     }

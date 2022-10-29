@@ -15,4 +15,7 @@ public class Cell
     private int _yPosition;
     
     public CellTypeBehavior CellType => _cellType;
+    public Ball Ball => _ball;
+    public int XPosition => _xPosition;
+    public int YPosition => _yPosition;
 }

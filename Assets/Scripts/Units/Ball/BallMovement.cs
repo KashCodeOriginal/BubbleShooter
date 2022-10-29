@@ -26,7 +26,6 @@ public class BallMovement : MonoBehaviour, IMovable
     {
         _ballCollides = GetComponent<BallCollides>();
         
-        _objectInput.OnRotateEnded += StartBallMoving;
         _ballCollides.OnBallDestroyed += CanCreateNewBall;
         
         CanMove = false;
@@ -50,6 +49,8 @@ public class BallMovement : MonoBehaviour, IMovable
     {
         _objectInput = objectInput;
         _cannon = cannon;
+
+        _objectInput.OnRotateEnded += StartBallMoving;
     }
 
     public void TryMove()
