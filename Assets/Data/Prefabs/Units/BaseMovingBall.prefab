@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: -4348477737089141531}
   - component: {fileID: -3024296927365164221}
   - component: {fileID: 8144721576329576473}
+  - component: {fileID: 2981397297131244836}
   m_Layer: 0
   m_Name: BaseMovingBall
-  m_TagString: Ball
+  m_TagString: MovingBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,3 +164,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca38aae1ba765478f8fd359109a378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &2981397297131244836
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171038527491075298}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

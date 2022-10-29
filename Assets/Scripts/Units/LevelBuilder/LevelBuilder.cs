@@ -11,6 +11,10 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         _cellsMatrixWatcher = cellsMatrixWatcher;
     }
 
+    [SerializeField] private float _distance;
+    [SerializeField] private Vector3 _centerPosition;
+    
+
     private IBallsFactory _ballsFactory;
     private ICellsMatrixWatcher _cellsMatrixWatcher;
     private BallSpawner _ballSpawner;
@@ -30,15 +34,21 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         
         for (int x = 0; x < CellsMatrixWatcher.ROWS_COUNT; x++)
         {
-            for (int y = 0; y < CellsMatrixWatcher.ROWS_COUNT; y++)
+            for (int y = 0; y < CellsMatrixWatcher.COLUMNS_COUNT; y++)
             {
                 var cell = cells[x, y];
 
                 var ballType = GetBallType(cell.CellType);
 
+                var cornerPosition = GetCornerPosition(_centerPosition, x, y, _distance);
+
+                var targetPosition = GetSpawnPosition(cornerPosition, x, y, _distance);
+                
                 if (ballType != 0)
                 {
                     var ballInstance = await _ballSpawner.CreateDecoratableBall(Vector2.zero, ballType);
+
+                    ballInstance.transform.position = targetPosition;
 
                     if (ballInstance.TryGetComponent(out Ball ball))
                     {
@@ -66,5 +76,19 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         }
 
         return 0;
+    }
+    
+    private Vector2 GetCornerPosition(Vector2 centerPosition, int row, int column, float distance)
+    {
+        return centerPosition +
+               Vector2.down * column * distance * 0.25f +
+               Vector2.left * row * distance * 0.25f;
+    }
+    
+    private Vector2 GetSpawnPosition(Vector2 cornerPosition,int row, int column, float distance)
+    {
+        return cornerPosition + 
+               Vector2.up * column * distance + 
+               Vector2.right * row * distance;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using KasherOriginal.Settings;
 
-public class BallCollides : MonoBehaviour
+public class MovingMovingBallCollides : MonoBehaviour, IMovingBallCollides
 {
     [Inject]
     public void Construct(GameSettings gameSettings)
@@ -12,11 +12,12 @@ public class BallCollides : MonoBehaviour
     }
 
     public event UnityAction OnBallDestroyed;
-
+    
     private GameSettings _gameSettings;
     private IMovable _movable;
 
     private int _collidesCount;
+
 
     private void Start()
     {
@@ -27,6 +28,15 @@ public class BallCollides : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
+        if (col.gameObject.CompareTag("StaticBall"))
+        {
+            Destroy(gameObject);
+                
+            OnBallDestroyed?.Invoke();
+                
+            return;
+        }
+        
         if (_collidesCount >= _gameSettings.MaxBallWallsCollider)
         {
             Destroy(gameObject);
@@ -43,4 +53,9 @@ public class BallCollides : MonoBehaviour
             _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
         }
     }
+}
+
+public interface IMovingBallCollides
+{
+    public event UnityAction OnBallDestroyed;
 }

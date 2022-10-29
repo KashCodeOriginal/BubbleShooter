@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _color: {r: 0, g: 0, b: 0, a: 0}
   _ballType: 0
-  _prefab: {fileID: 2171038527491075298, guid: f581ac1b59f1ce940ba30f061d367477, type: 3}
+  _prefab: {fileID: 2171038527491075298, guid: 29207da85a106674282d3e1fbf8dc1f7, type: 3}

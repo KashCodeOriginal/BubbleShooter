@@ -18,15 +18,15 @@ public class BallMovement : MonoBehaviour, IMovable
     private GameSettings _gameSettings;
     private ObjectInput _objectInput;
     private GameObject _cannon;
-    private BallCollides _ballCollides;
+    private MovingMovingBallCollides _movingMovingBallCollides;
 
     private bool _canCreateNewBall;
 
     private void Start()
     {
-        _ballCollides = GetComponent<BallCollides>();
+        _movingMovingBallCollides = GetComponent<MovingMovingBallCollides>();
         
-        _ballCollides.OnBallDestroyed += CanCreateNewBall;
+        _movingMovingBallCollides.OnBallDestroyed += CanCreateNewMovingMovingBall;
         
         CanMove = false;
 
@@ -77,22 +77,16 @@ public class BallMovement : MonoBehaviour, IMovable
     private Vector2 CreateBallMoveDirection()
     {
         var mousePosition = _objectInput.CurrentMousePosition;
-        
-        Debug.Log(mousePosition);
-        
+
         var cannonPosition = _cannon.transform.position;
         var currentCannonPosition = new Vector2(cannonPosition.x, cannonPosition.y);
         
-        Debug.Log(currentCannonPosition);
-
         var direction = mousePosition - currentCannonPosition;
-        
-        Debug.Log(direction.normalized);
-        
+
         return direction.normalized;
     }
 
-    private void CanCreateNewBall()
+    private void CanCreateNewMovingMovingBall()
     {
         _canCreateNewBall = true;
     }
@@ -100,6 +94,6 @@ public class BallMovement : MonoBehaviour, IMovable
     private void OnDisable()
     {
         _objectInput.OnRotateEnded -= StartBallMoving;
-        _ballCollides.OnBallDestroyed -= CanCreateNewBall;
+        _movingMovingBallCollides.OnBallDestroyed -= CanCreateNewMovingMovingBall;
     }
 }

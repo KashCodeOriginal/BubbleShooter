@@ -31,7 +31,7 @@ public class RandomBallCreater : MonoBehaviour
             movable.SetUp(_objectInput, _cannon);
         }
 
-        if (ball.TryGetComponent(out BallCollides ballCollides))
+        if (ball.TryGetComponent(out MovingMovingBallCollides ballCollides))
         {
             ballCollides.OnBallDestroyed += CreateBall;
         }
