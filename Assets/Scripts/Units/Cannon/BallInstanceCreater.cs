@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RandomBallCreater : MonoBehaviour
+public class BallInstanceCreater : MonoBehaviour
 {
     private BallSpawner _ballSpawner;
     private ObjectInput _objectInput;
@@ -10,8 +10,6 @@ public class RandomBallCreater : MonoBehaviour
     private void Start()
     {
         _ballSpawner = GetComponent<BallSpawner>();
-        
-        CreateBall();
     }
 
     public void Construct(ObjectInput objectInput, GameObject cannon)
@@ -22,9 +20,7 @@ public class RandomBallCreater : MonoBehaviour
 
     private async void CreateBall()
     {
-        var ball = await _ballSpawner.CreateRandomDecoratableBall();
-        
-        ball.transform.SetParent(_cannon.transform);
+        var ball = await _ballSpawner.CreateMovingBall();
 
         if (ball.TryGetComponent(out IMovable movable))
         {
@@ -33,7 +29,7 @@ public class RandomBallCreater : MonoBehaviour
 
         if (ball.TryGetComponent(out MovingBallCollides ballCollides))
         {
-            ballCollides.OnBallDestroyed += CreateBall;
+            _objectInput.OnRotateEnded += CreateBall;
         }
     }
 

@@ -26,30 +26,30 @@ public class StaticBallCollides : MonoBehaviour
             {
                 if (col.collider.IsTouching(_downSideCollider))
                 {
-                    ProcessBallConnection(BallConnectionType.Down, gameObject.GetComponent<Ball>(), col.gameObject.GetComponent<Ball>());
+                    ProcessBallConnection(BallConnectionType.Down, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
                 if (col.collider.IsTouching(_upSideCollider))
                 {
-                    ProcessBallConnection(BallConnectionType.Up, gameObject.GetComponent<Ball>(), col.gameObject.GetComponent<Ball>());
+                    ProcessBallConnection(BallConnectionType.Up, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
                 if (col.collider.IsTouching(_leftSideCollider))
                 {
-                    ProcessBallConnection(BallConnectionType.Left, gameObject.GetComponent<Ball>(), col.gameObject.GetComponent<Ball>());
+                    ProcessBallConnection(BallConnectionType.Left, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
                 if (col.collider.IsTouching(_rightSideCollider))
                 {
-                    ProcessBallConnection(BallConnectionType.Right, gameObject.GetComponent<Ball>(), col.gameObject.GetComponent<Ball>());
+                    ProcessBallConnection(BallConnectionType.Right, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
             }
         }
     }
 
-    private void ProcessBallConnection(BallConnectionType connectionType, Ball originalBall, Ball shootedBall)
+    private void ProcessBallConnection(BallConnectionType connectionType, BallSpriteBehavior originalBallSpriteBehavior, BallSpriteBehavior shootedBallSpriteBehavior)
     {
-        _cellsMatrixWatcher.ProcessBallConnection(connectionType, originalBall, shootedBall);
+        _cellsMatrixWatcher.ProcessBallConnection(connectionType, originalBallSpriteBehavior, shootedBallSpriteBehavior);
     }
 }

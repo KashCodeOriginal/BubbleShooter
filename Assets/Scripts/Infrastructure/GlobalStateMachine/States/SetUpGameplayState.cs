@@ -46,7 +46,7 @@ namespace KasherOriginal.GlobalStateMachine
 
             if (cannonControl.TryGetComponent(out ObjectInput objectInput))
             {
-                levelBuilder.GetComponentInChildren<RandomBallCreater>().Construct(objectInput, cannon);
+                levelBuilder.GetComponentInChildren<BallInstanceCreater>().Construct(objectInput, cannon);
             }
         }
     }

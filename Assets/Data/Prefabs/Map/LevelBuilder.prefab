@@ -80,8 +80,8 @@ MonoBehaviour:
   _ballColorDecorators:
   - {fileID: 11400000, guid: 3f360c4d2610da147a2758d97dc0fcef, type: 2}
   - {fileID: 11400000, guid: 4b7c5b3636d1b204a8834de420217af3, type: 2}
-  - {fileID: 11400000, guid: 0842ff9c218d64a428eb51aef260141d, type: 2}
   - {fileID: 11400000, guid: 9c1f7a5a62e84074ea7e38abe7589d55, type: 2}
+  - {fileID: 11400000, guid: 0842ff9c218d64a428eb51aef260141d, type: 2}
   _spawnPosition: {fileID: 5155855783480806962}
 --- !u!114 &5155855784305343428
 MonoBehaviour:
@@ -126,7 +126,7 @@ Transform:
   m_Children:
   - {fileID: 5155855784305343427}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5155855784690199918
 MonoBehaviour:

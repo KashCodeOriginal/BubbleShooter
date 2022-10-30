@@ -1,6 +1,4 @@
-using System;
 using KasherOriginal.Settings;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
@@ -67,45 +65,45 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
         Cells = levelField;
     }
 
-    public void ChangeCellInfo(BallTypeBehavior ballType, Ball ball, int positionX, int positionY)
+    public void ChangeCellInfo(BallTypeBehavior ballType, BallSpriteBehavior ballSpriteBehavior, int positionX, int positionY)
     {
-        Cells[positionX, positionY] = new Cell(_ballTypesRelation.GetCellTypeFromBallType(ballType), ball, positionX, positionY);
+        Cells[positionX, positionY] = new Cell(_ballTypesRelation.GetCellTypeFromBallType(ballType), ballSpriteBehavior, positionX, positionY);
     }
 
-    public void ProcessBallConnection(BallConnectionType connectionType, Ball originalBall, Ball shootedBall)
+    public void ProcessBallConnection(BallConnectionType connectionType, BallSpriteBehavior originalBallSpriteBehavior, BallSpriteBehavior shootedBallSpriteBehavior)
     {
-        var originalCell = FindCellByBall(originalBall);
+        var originalCell = FindCellByBall(originalBallSpriteBehavior);
 
         var originalXPos = originalCell.XPosition;
         var originalYPos = originalCell.YPosition;
 
-        var newCellType = _ballTypesRelation.GetCellTypeFromBallType(shootedBall.BallType);
+        var newCellType = _ballTypesRelation.GetCellTypeFromBallType(shootedBallSpriteBehavior.BallType);
 
         if (originalCell != null)
         {
             switch (connectionType)
             {
                 case BallConnectionType.Up:
-                    Cells[originalXPos, originalYPos - 1] = new Cell(newCellType, originalBall, originalXPos, originalYPos - 1);
+                    Cells[originalXPos, originalYPos - 1] = new Cell(newCellType, originalBallSpriteBehavior, originalXPos, originalYPos - 1);
                     break;
                 case BallConnectionType.Down:
-                    Cells[originalXPos, originalYPos + 1] = new Cell(newCellType, originalBall, originalXPos, originalYPos + 1);
+                    Cells[originalXPos, originalYPos + 1] = new Cell(newCellType, originalBallSpriteBehavior, originalXPos, originalYPos + 1);
                     break;
                 case BallConnectionType.Left:
-                    Cells[originalXPos - 1, originalYPos] = new Cell(newCellType, originalBall, originalXPos - 1, originalYPos);
+                    Cells[originalXPos - 1, originalYPos] = new Cell(newCellType, originalBallSpriteBehavior, originalXPos - 1, originalYPos);
                     break;
                 case BallConnectionType.Right:
-                    Cells[originalXPos + 1, originalYPos] = new Cell(newCellType, originalBall, originalXPos + 1, originalYPos);
+                    Cells[originalXPos + 1, originalYPos] = new Cell(newCellType, originalBallSpriteBehavior, originalXPos + 1, originalYPos);
                     break;
             }      
         }
     }
 
-    private Cell FindCellByBall(Ball ball)
+    private Cell FindCellByBall(BallSpriteBehavior ballSpriteBehavior)
     {
         foreach (var cell in Cells)
         {
-            if (cell.Ball == ball)
+            if (cell.BallSpriteBehavior == ballSpriteBehavior)
             {
                 return cell;
             }

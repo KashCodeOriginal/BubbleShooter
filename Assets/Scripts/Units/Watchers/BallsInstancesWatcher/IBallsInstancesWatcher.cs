@@ -2,20 +2,20 @@ using System.Collections.Generic;
 
 public interface IBallsInstancesWatcher
 {
-    public List<Ball> Instances { get; }
-    public void Register(Ball instance);
+    public List<BallSpriteBehavior> Instances { get; }
+    public void Register(BallSpriteBehavior instance);
 }
 
 public class BallInstancesWatcher : IBallsInstancesWatcher
 {
-    private List<Ball> _instances = new List<Ball>();
+    private List<BallSpriteBehavior> _instances = new List<BallSpriteBehavior>();
 
-    public List<Ball> Instances
+    public List<BallSpriteBehavior> Instances
     {
         get => _instances;
     }
     
-    public void Register(Ball instance)
+    public void Register(BallSpriteBehavior instance)
     {
         _instances.Add(instance);
     }

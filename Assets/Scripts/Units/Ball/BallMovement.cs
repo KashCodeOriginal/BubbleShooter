@@ -63,8 +63,6 @@ public class BallMovement : MonoBehaviour, IMovable
 
     private void StartBallMoving()
     {
-        //gameObject.transform.SetParent(null);
-        
         if (_canCreateNewBall)
         {
             TargetDirection = CreateBallMoveDirection();
@@ -76,8 +74,6 @@ public class BallMovement : MonoBehaviour, IMovable
 
     private Vector2 CreateBallMoveDirection()
     {
-        gameObject.transform.SetParent(null);
-
         var mousePosition = _objectInput.CurrentMousePosition;
 
         var cannonPosition = _cannon.transform.position;

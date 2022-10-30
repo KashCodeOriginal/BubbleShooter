@@ -20,6 +20,8 @@ namespace KasherOriginal.Settings
         [SerializeField] private int _minBallsAmount;
         [SerializeField] private int _maxBallsAmount;
 
+        [SerializeField] private int _gameBallsAmount;
+
         public Vector3 CannonInstancePosition => _cannonInstancePosition;
         public Vector3 BaseMapPosition => _baseMapPosition;
         public float CannonRotationSpeed => _cannonRotationSpeed;
@@ -28,6 +30,7 @@ namespace KasherOriginal.Settings
         
         public int MinBallsAmount => _minBallsAmount;
         public int MaxBallsAmount => _maxBallsAmount;
+        public int GameBallsAmount => _gameBallsAmount;
 
         private void OnEnable()
         {

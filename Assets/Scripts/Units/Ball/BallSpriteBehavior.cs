@@ -1,16 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public struct Ball
+public class BallSpriteBehavior : MonoBehaviour
 {
-    private Color _color;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     private BallTypeBehavior _ballType;
 
-    public Color Color => _color;
     public BallTypeBehavior BallType => _ballType;
 
     public void Modify(Color color, BallTypeBehavior ballType)
     {
-        _color = color;
+        _spriteRenderer.color = color;
         _ballType = ballType;
     }
 }

@@ -56,11 +56,11 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
                 
                 if (ballType != BallTypeBehavior.Empty)
                 {
-                    var ballInstance = await _ballSpawner.CreateDecoratableBall(Vector2.zero, ballType);
+                    var ballInstance = await _ballSpawner.CreateStaticBall(Vector2.zero, ballType);
 
                     ballInstance.transform.position = targetPosition;
 
-                    if (ballInstance.TryGetComponent(out Ball ball))
+                    if (ballInstance.TryGetComponent(out BallSpriteBehavior ball))
                     {
                         _cellsMatrixWatcher.ChangeCellInfo(ballType, ball, x, y);
                         _ballsInstancesWatcher.Register(ball);

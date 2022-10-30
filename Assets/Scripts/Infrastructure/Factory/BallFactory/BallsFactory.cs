@@ -26,33 +26,38 @@ namespace KasherOriginal.Factories.BallFactory
         {
             get => _instances;
         }
-    
-        public async Task<GameObject> CreateDecoratableInstance(Vector3 position, bool isInstanceMovable, params BallDecorator[] decorators)
-        {
-            BallConfig ballConfig;
 
-            if (isInstanceMovable)
-            {
-               ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_MOVING_BALL_CONFIG);
-            }
-            else
-            {
-                ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_STATIC_BALL_CONFIG);
-            }
-    
+        public async Task<Ball> DecorateBall(params BallColorDecorator[] decorators)
+        {
+            Ball ball = new Ball();
+            
+            var ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_MOVING_BALL_CONFIG);
+
             BallStats ballStats = GetStatsFromBall(ballConfig);
-    
-            GameObject ballInstance = SpawnGameObject(ballConfig);
             
             DecorateStats(ref ballStats, decorators);
-            
-            SetUp(ballInstance, position, ballStats);
-            
-            _instances.Add(ballInstance);
-    
-            ToScene(ballInstance);
-    
-            return ballInstance;
+
+            ball.Modify(ballStats.Color, ballStats.BallTypeBehavior);
+
+            return ball;
+        }
+
+        public async Task<GameObject> CreateMovableInstance(Vector2 position, Ball ball)
+        {
+            var ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_MOVING_BALL_CONFIG);
+
+            var instanceWithStats = CreateInstanceWithStats(ballConfig, position, ball);
+
+            return instanceWithStats;
+        }
+
+        public async Task<GameObject> CreateStaticInstance(Vector2 position, BallColorDecorator[] decorators)
+        {
+            var ballConfig = await _assetsAddressableService.GetAsset<BallConfig>(AssetsAddressablesConstants.BASE_STATIC_BALL_CONFIG);
+
+            var instanceWithStats = CreateInstanceWithStats(ballConfig, position, decorators);
+
+            return instanceWithStats;
         }
 
         public void DestroyInstance(GameObject instance)
@@ -79,6 +84,36 @@ namespace KasherOriginal.Factories.BallFactory
             
             _instances.Clear();
         }
+
+        private GameObject CreateInstanceWithStats(BallConfig ballConfig, Vector2 position, params BallColorDecorator[] decorators)
+        {
+            BallStats ballStats = GetStatsFromBall(ballConfig);
+
+            GameObject ballInstance = SpawnGameObject(ballConfig);
+            
+            DecorateStats(ref ballStats, decorators);
+
+            SetUp(ballInstance, position, ballStats);
+
+            _instances.Add(ballInstance);
+    
+            ToScene(ballInstance);
+    
+            return ballInstance;
+        }
+        
+        private GameObject CreateInstanceWithStats(BallConfig ballConfig, Vector2 position, Ball ball)
+        {
+            GameObject ballInstance = SpawnGameObject(ballConfig);
+
+            SetUp(ballInstance, position, ball);
+            
+            _instances.Add(ballInstance);
+    
+            ToScene(ballInstance);
+    
+            return ballInstance;
+        }
     
         private BallStats GetStatsFromBall(BallConfig ballConfig)
         {
@@ -99,11 +134,11 @@ namespace KasherOriginal.Factories.BallFactory
             return ballInstance;
         }
         
-        private void DecorateStats(ref BallStats ballStats, params BallDecorator[] decorators)
+        private void DecorateStats(ref BallStats ballStats, params BallColorDecorator[] decorators)
         {
-            for (int i = 0; i < decorators.Length; i++)
+            foreach (var decorator in decorators)
             {
-                decorators[i].Decorate(ref ballStats);
+                decorator.Decorate(ref ballStats);
             }
         }
     
@@ -111,9 +146,19 @@ namespace KasherOriginal.Factories.BallFactory
         {
             ballInstance.transform.position = position;
     
-            if (ballInstance.TryGetComponent(out Ball ball))
+            if (ballInstance.TryGetComponent(out BallSpriteBehavior ball))
             {
                 ball.Modify(ballStats.Color, ballStats.BallTypeBehavior);
+            }
+        }
+        
+        private void SetUp(GameObject ballInstance, Vector3 position, Ball ball)
+        {
+            ballInstance.transform.position = position;
+    
+            if (ballInstance.TryGetComponent(out BallSpriteBehavior ballSprite))
+            {
+                ballSprite.Modify(ball.Color, ball.BallType);
             }
         }
     

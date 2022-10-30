@@ -12,13 +12,14 @@ public class ServiceInstaller : MonoInstaller
     public override void InstallBindings()
     {
         BindUIFactory();
-        BindGameSettings();
         BindBallsFactory();
         BindBallRelation();
+        BindGameSettings();
         BindAbstractFactory();
         BindAssetsAddressable();
         BindCellMatrixWatcher();
         BindBallInstancesWatcher();
+        BindShootableBallsContainer();
     }
 
     private void BindAssetsAddressable()
@@ -59,5 +60,10 @@ public class ServiceInstaller : MonoInstaller
     private void BindBallInstancesWatcher()
     {
         Container.BindInterfacesTo<BallInstancesWatcher>().AsSingle();
+    }
+
+    private void BindShootableBallsContainer()
+    {
+        Container.BindInterfacesTo<ShootableBallsContainer>().AsSingle();
     }
 }

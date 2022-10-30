@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BallColorDecorator", menuName = "Decorators/Ball/BallColorDecorator")]
+[CreateAssetMenu(fileName = "BallColorDecorator", menuName = "Decorators/BallSpriteBehavior/BallColorDecorator")]
 public class BallColorDecorator : BallDecorator
 {
     [SerializeField] private Color _color;
