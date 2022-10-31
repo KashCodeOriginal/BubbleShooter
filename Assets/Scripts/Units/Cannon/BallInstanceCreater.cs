@@ -7,9 +7,15 @@ public class BallInstanceCreater : MonoBehaviour
 
     private GameObject _cannon;
 
+    private ILevelBuilder _levelBuilder;
+
     private void Start()
     {
         _ballSpawner = GetComponent<BallSpawner>();
+
+        _levelBuilder = GetComponent<ILevelBuilder>();
+        
+        _objectInput.OnRotateEnded += CreateBall;
     }
 
     public void Construct(ObjectInput objectInput, GameObject cannon)
@@ -26,11 +32,20 @@ public class BallInstanceCreater : MonoBehaviour
         {
             movable.SetUp(_objectInput, _cannon);
         }
-
-        if (ball.TryGetComponent(out MovingBallCollides ballCollides))
+        
+        if (ball.TryGetComponent(out IDestroyable destroyable))
         {
-            _objectInput.OnRotateEnded += CreateBall;
+            destroyable.OnBallDestroyed += UpdateCells;
         }
     }
 
+    private void UpdateCells()
+    {
+        //_levelBuilder.UpdateCurrentLevel();
+    }
+
+    private void OnDisable()
+    {
+        _objectInput.OnRotateEnded -= CreateBall;
+    }
 }

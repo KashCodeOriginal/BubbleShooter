@@ -20,3 +20,4 @@ MonoBehaviour:
   _targetFPS: 60
   _minBallsAmount: 40
   _maxBallsAmount: 64
+  _gameBallsAmount: 999

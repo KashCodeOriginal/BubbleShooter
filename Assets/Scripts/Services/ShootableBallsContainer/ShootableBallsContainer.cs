@@ -12,11 +12,6 @@ public class ShootableBallsContainer : IShootableBallsContainer
 
     public void RegisterBall(Ball instance)
     {
-        if (_balls.Contains(instance))
-        {
-            return;
-        }
-        
         _balls.Add(instance);
     }
 

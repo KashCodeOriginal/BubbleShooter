@@ -1,6 +1,7 @@
-using KasherOriginal.Factories.BallFactory;
 using Zenject;
 using UnityEngine;
+using System.Collections;
+using KasherOriginal.Factories.BallFactory;
 
 public class BallDestroyHandler : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class BallDestroyHandler : MonoBehaviour
     private void DestroyInstance()
     {
         _ballsFactory.DestroyInstance(gameObject);
-        //_ballsInstancesWatcher
     }
 
     private void OnDisable()

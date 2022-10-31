@@ -7,15 +7,23 @@ namespace KasherOriginal.Settings
     {
         [SerializeField] private Vector3 _cannonInstancePosition;
         
+        [Space(5f)]
+        
         [SerializeField] private Vector3 _baseMapPosition;
+        
+        [Space(5f)]
         
         [SerializeField] private float _cannonRotationSpeed;
 
         [SerializeField] private int _ballMovementSpeed;
 
         [SerializeField] private int _maxBallWallsCollides;
+        
+        [Space(5f)]
 
         [SerializeField] private int _targetFPS;
+        
+        [Space(5f)]
 
         [SerializeField] private int _minBallsAmount;
         [SerializeField] private int _maxBallsAmount;

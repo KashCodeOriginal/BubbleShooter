@@ -1,23 +1,10 @@
+using UnityEngine;
 using System.Collections.Generic;
 
 public interface IBallsInstancesWatcher
 {
-    public List<BallSpriteBehavior> Instances { get; }
-    public void Register(BallSpriteBehavior instance);
+    public List<GameObject> Instances { get; }
+    public void Register(GameObject instance);
+    public void DestroyInstance(GameObject instance);
+    public void DestroyAllInstances();
 }
-
-public class BallInstancesWatcher : IBallsInstancesWatcher
-{
-    private List<BallSpriteBehavior> _instances = new List<BallSpriteBehavior>();
-
-    public List<BallSpriteBehavior> Instances
-    {
-        get => _instances;
-    }
-    
-    public void Register(BallSpriteBehavior instance)
-    {
-        _instances.Add(instance);
-    }
-}
-    

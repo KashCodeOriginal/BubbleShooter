@@ -48,6 +48,11 @@ namespace KasherOriginal.GlobalStateMachine
             {
                 levelBuilder.GetComponentInChildren<BallInstanceCreater>().Construct(objectInput, cannon);
             }
+
+            if (levelBuilder.GetComponentInChildren<BallSpawner>())
+            {
+                levelBuilder.GetComponentInChildren<BallSpawner>().Construct(cannon.transform.GetChild(0));
+            }
         }
     }
 }

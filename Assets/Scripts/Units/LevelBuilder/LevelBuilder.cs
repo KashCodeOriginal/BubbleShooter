@@ -1,14 +1,12 @@
 using System;
 using Zenject;
 using UnityEngine;
-using KasherOriginal.Factories.BallFactory;
 
 public class LevelBuilder : MonoBehaviour, ILevelBuilder
 {
     [Inject]
-    public void Construct(IBallsFactory ballsFactory, ICellsMatrixWatcher cellsMatrixWatcher, IBallsInstancesWatcher ballsInstancesWatcher)
+    public void Construct(ICellsMatrixWatcher cellsMatrixWatcher, IBallsInstancesWatcher ballsInstancesWatcher)
     {
-        _ballsFactory = ballsFactory;
         _cellsMatrixWatcher = cellsMatrixWatcher;
         _ballsInstancesWatcher = ballsInstancesWatcher;
     }
@@ -16,7 +14,6 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
     [SerializeField] private float _distance;
     [SerializeField] private Vector3 _centerPosition;
 
-    private IBallsFactory _ballsFactory;
     private ICellsMatrixWatcher _cellsMatrixWatcher;
     private BallSpawner _ballSpawner;
     private IBallsInstancesWatcher _ballsInstancesWatcher;
@@ -27,21 +24,49 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         
         _cellsMatrixWatcher.CreateRandomField();
         
-        BuildLevel(_cellsMatrixWatcher.Cells);
+        BuildRandomLevel();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            BuildLevel(_cellsMatrixWatcher.Cells);
-        }
+        UpdateCurrentLevel();
     }
 
-    public async void BuildLevel(Cell[,] cells)
+    public void BuildRandomLevel()
     {
-        _cellsMatrixWatcher.SetLevelField(cells);
-        
+        _ballsInstancesWatcher.DestroyAllInstances();
+        _cellsMatrixWatcher.CreateRandomField();
+        _cellsMatrixWatcher.SetLevelField(_cellsMatrixWatcher.Cells);
+        BuildLevel(_cellsMatrixWatcher.Cells);
+    }
+
+    public void UpdateCurrentLevel()
+    {
+        _ballsInstancesWatcher.DestroyAllInstances();
+        BuildLevel(_cellsMatrixWatcher.Cells);
+    }
+
+    private BallTypeBehavior GetBallType(CellTypeBehavior cellType)
+    {
+        switch (cellType)
+        {
+            case CellTypeBehavior.R:
+                return BallTypeBehavior.Red;
+            case CellTypeBehavior.B:
+                return BallTypeBehavior.Blue;
+            case CellTypeBehavior.G:
+                return BallTypeBehavior.Green;
+            case CellTypeBehavior.Y:
+                return BallTypeBehavior.Yellow;
+            case CellTypeBehavior.E:
+                return BallTypeBehavior.Empty;
+        }
+
+        return BallTypeBehavior.Empty;
+    }
+
+    private async void BuildLevel(Cell[,] cells)
+    {
         for (int x = 1; x < CellsMatrixWatcher.ROWS_COUNT - 1; x++)
         {
             for (int y = 0; y < CellsMatrixWatcher.COLUMNS_COUNT; y++)
@@ -63,30 +88,11 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
                     if (ballInstance.TryGetComponent(out BallSpriteBehavior ball))
                     {
                         _cellsMatrixWatcher.ChangeCellInfo(ballType, ball, x, y);
-                        _ballsInstancesWatcher.Register(ball);
+                        _ballsInstancesWatcher.Register(ballInstance);
                     }
                 }
             }
         }
-    }
-
-    private BallTypeBehavior GetBallType(CellTypeBehavior cellType)
-    {
-        switch (cellType)
-        {
-            case CellTypeBehavior.R:
-                return BallTypeBehavior.Red;
-            case CellTypeBehavior.B:
-                return BallTypeBehavior.Blue;
-            case CellTypeBehavior.G:
-                return BallTypeBehavior.Green;
-            case CellTypeBehavior.Y:
-                return BallTypeBehavior.Yellow;
-            case CellTypeBehavior.E:
-                return BallTypeBehavior.Empty;
-        }
-
-        return BallTypeBehavior.Empty;
     }
     
     private Vector2 GetCornerPosition(Vector2 centerPosition, int row, int column, float distance)

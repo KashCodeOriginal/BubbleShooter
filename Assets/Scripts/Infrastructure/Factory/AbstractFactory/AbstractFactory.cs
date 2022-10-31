@@ -55,4 +55,14 @@ public class AbstractFactory : IAbstractFactory
         
         _instances.Clear();
     }
+
+    public void DestroyAllInstances<T>(List<T> list) where T : Object
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Object.Destroy(list[i]);
+        }
+        
+        list.Clear();
+    }
 }

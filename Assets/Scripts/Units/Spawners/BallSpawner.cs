@@ -26,17 +26,12 @@ public class BallSpawner : MonoBehaviour
 
     private void Start()
     {
-        CreateBallsComponents();
+        CreateBallsForGame();
     }
 
-    private async void CreateBallsComponents()
+    public void Construct(Transform ballSpawnPosition)
     {
-        for (int i = 0; i < _gameSettings.GameBallsAmount; i++)
-        {
-            var ball = await _ballsFactory.DecorateBall(_ballColorDecorators[Random.Range(0, _ballColorDecorators.Length)]);
-
-            _shootableBallsContainer.RegisterBall(ball);
-        }
+        _spawnPosition = ballSpawnPosition;
     }
 
     public async Task<GameObject> CreateMovingBall()
@@ -54,7 +49,7 @@ public class BallSpawner : MonoBehaviour
 
         return ballInstance;
     }
-    
+
     public async Task<GameObject> CreateStaticBall(Vector2 position, BallTypeBehavior ballType)
     {
         if (!isActiveAndEnabled)
@@ -68,12 +63,20 @@ public class BallSpawner : MonoBehaviour
         {
             if (_ballColorDecorators[decoratorPosition].BallType == ballType)
             {
-                GameObject ballInstance = await _ballsFactory.CreateStaticInstance(position, _ballColorDecorators[Random.Range(0, _ballColorDecorators.Length)]);
-
+                GameObject ballInstance = await _ballsFactory.CreateStaticInstance(position, _ballColorDecorators[decoratorPosition]);
                 return ballInstance;
             }
         }
 
         return null;
+    }
+
+    private async void CreateBallsForGame()
+    {
+        for (int i = 0; i < _gameSettings.GameBallsAmount; i++)
+        {
+            var ball = await _ballsFactory.DecorateBall(_ballColorDecorators[Random.Range(0, _ballColorDecorators.Length)]);
+            _shootableBallsContainer.RegisterBall(ball);
+        }
     }
 }

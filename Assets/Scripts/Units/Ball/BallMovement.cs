@@ -12,27 +12,17 @@ public class BallMovement : MonoBehaviour, IMovable
 
     public Vector2 TargetDirection { get; private set; } = Vector2.zero;
     
-    public bool CanMove { get; private set; }
     public float Speed { get; private set; }
 
     private GameSettings _gameSettings;
     private ObjectInput _objectInput;
     private GameObject _cannon;
-    private MovingBallCollides _movingBallCollides;
-
-    private bool _canCreateNewBall;
 
     private void Start()
     {
-        _movingBallCollides = GetComponent<MovingBallCollides>();
-        
-        _movingBallCollides.OnBallDestroyed += CanCreateNewMovingMovingBall;
-        
-        CanMove = false;
-
-        _canCreateNewBall = true;
-        
         Speed = _gameSettings.BallMovementSpeed;
+        
+        StartBallMoving();
     }
 
     private void FixedUpdate()
@@ -53,23 +43,17 @@ public class BallMovement : MonoBehaviour, IMovable
         _objectInput.OnRotateEnded += StartBallMoving;
     }
 
-    public void TryMove()
+    private void TryMove()
     {
-        if (CanMove)
+        if (TargetDirection != Vector2.zero)
         {
-            transform.Translate(TargetDirection * Speed * Time.deltaTime);  
+            transform.Translate(TargetDirection * Speed * Time.deltaTime); 
         }
     }
 
     private void StartBallMoving()
     {
-        if (_canCreateNewBall)
-        {
-            TargetDirection = CreateBallMoveDirection();
-            CanMove = true;
-
-            _canCreateNewBall = false;
-        }
+        TargetDirection = CreateBallMoveDirection();
     }
 
     private Vector2 CreateBallMoveDirection()
@@ -83,15 +67,10 @@ public class BallMovement : MonoBehaviour, IMovable
 
         return direction.normalized;
     }
-
-    private void CanCreateNewMovingMovingBall()
-    {
-        _canCreateNewBall = true;
-    }
+    
 
     private void OnDisable()
     {
         _objectInput.OnRotateEnded -= StartBallMoving;
-        _movingBallCollides.OnBallDestroyed -= CanCreateNewMovingMovingBall;
     }
 }

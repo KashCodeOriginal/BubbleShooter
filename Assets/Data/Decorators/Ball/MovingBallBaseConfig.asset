@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0fe0842186c0742af0c55e4a3c9275, type: 3}
   m_Name: MovingBallBaseConfig
   m_EditorClassIdentifier: 
-  _color: {r: 0, g: 0, b: 0, a: 0}
+  _color: {r: 1, g: 1, b: 1, a: 1}
   _ballType: 0
   _prefab: {fileID: 2171038527491075298, guid: f581ac1b59f1ce940ba30f061d367477, type: 3}

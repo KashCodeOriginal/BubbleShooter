@@ -59,7 +59,7 @@ namespace KasherOriginal.Factories.BallFactory
 
             return instanceWithStats;
         }
-
+        
         public void DestroyInstance(GameObject instance)
         {
             if (instance == null)
@@ -84,6 +84,17 @@ namespace KasherOriginal.Factories.BallFactory
             
             _instances.Clear();
         }
+
+        public void DestroyAllInstances<T>(List<T> list) where T : Object
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                Object.Destroy(list[i]);
+            }
+        
+            list.Clear();
+        }
+
 
         private GameObject CreateInstanceWithStats(BallConfig ballConfig, Vector2 position, params BallColorDecorator[] decorators)
         {
