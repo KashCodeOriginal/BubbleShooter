@@ -72,6 +72,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1f0b32c91f06dc478b0e2fac05ad01f
+    m_Address: GameplayScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51938f05c3664bc4cbda56605e5db2d2
+    m_Address: GameLoseScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d98f272893de7224b90ade1dac781bad, type: 2}
   m_SchemaSet:

@@ -8,6 +8,8 @@ namespace KasherOriginal.AssetsAddressable
     
         public const string LOADING_SCREEN = "LoadingScreen";
         public const string MAIN_MENU_SCREEN = "MainMenuScreen";
+        public const string GAMEPLAY_SCREEN = "GameplayScreen";
+        public const string GAME_LOSE_SCREEN = "GameLoseScreen";
     
         public const string BASE_MOVING_BALL_CONFIG = "BaseMovingBallConfig";
         public const string BASE_STATIC_BALL_CONFIG = "BaseStaticBallConfig";

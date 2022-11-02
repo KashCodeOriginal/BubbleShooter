@@ -23,7 +23,7 @@ public class BallSpawner : MonoBehaviour
     private IBallsFactory _ballsFactory;
     private GameSettings _gameSettings;
     private IShootableBallsContainer _shootableBallsContainer;
-
+    
     private void Start()
     {
         CreateBallsForGame();
@@ -41,13 +41,18 @@ public class BallSpawner : MonoBehaviour
             return null;
         }
 
-        Ball ball = _shootableBallsContainer.GetNextBall();
-        
-        GameObject ballInstance = await _ballsFactory.CreateMovableInstance(_spawnPosition.position, ball);
-        
-        _shootableBallsContainer.DeleteBall(ball);
+        if (_shootableBallsContainer.CanTakeCurrentBall())
+        {
+            Ball ball = _shootableBallsContainer.GetCurrentBall();
 
-        return ballInstance;
+            GameObject ballInstance = await _ballsFactory.CreateMovableInstance(_spawnPosition.position, ball);
+        
+            _shootableBallsContainer.DeleteBall(ball);
+
+            return ballInstance;
+        }
+
+        return null;
     }
 
     public async Task<GameObject> CreateStaticBall(Vector2 position, BallTypeBehavior ballType)

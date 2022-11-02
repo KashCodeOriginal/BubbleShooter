@@ -1,7 +1,8 @@
-using UnityEngine;
+using System;
 
 public interface ICellsMatrixWatcher
 {
+    public event Action BallOutOfBorder;
     public Cell[,] Cells { get; }
     public void CreateRandomField();
     public void SetLevelField(Cell[,] levelField);

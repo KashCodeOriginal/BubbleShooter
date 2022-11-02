@@ -1,4 +1,3 @@
-using System;
 using Zenject;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
     private ICellsMatrixWatcher _cellsMatrixWatcher;
     private BallSpawner _ballSpawner;
     private IBallsInstancesWatcher _ballsInstancesWatcher;
-
+    
     private void Start()
     {
         _ballSpawner = FindObjectOfType<BallSpawner>();
@@ -67,7 +66,7 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
 
     private async void BuildLevel(Cell[,] cells)
     {
-        for (int x = 1; x < CellsMatrixWatcher.ROWS_COUNT - 1; x++)
+        for (int x = 0; x < CellsMatrixWatcher.ROWS_COUNT; x++)
         {
             for (int y = 0; y < CellsMatrixWatcher.COLUMNS_COUNT; y++)
             {

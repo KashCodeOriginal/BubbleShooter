@@ -1,8 +1,13 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class ShootableBallsContainer : IShootableBallsContainer
 {
+    public event UnityAction<Color> NextBallColorChanged;
+
     private List<Ball> _balls = new List<Ball>();
 
     public IReadOnlyList<Ball> Balls
@@ -15,8 +20,19 @@ public class ShootableBallsContainer : IShootableBallsContainer
         _balls.Add(instance);
     }
 
-    public Ball GetNextBall()
+    public bool CanTakeCurrentBall()
     {
+        if (_balls.Count <= 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Ball GetCurrentBall()
+    {
+        NextBallColorChanged?.Invoke(_balls[1].Color);
         return _balls[0];
     }
 
@@ -28,5 +44,10 @@ public class ShootableBallsContainer : IShootableBallsContainer
         }
         
         _balls.Remove(instance);
+    }
+
+    public void DeleteAllBalls()
+    {
+        _balls.Clear();
     }
 }

@@ -7,7 +7,7 @@ using KasherOriginal.Settings;
 public class GameInstance
 {
     public GameInstance(IUIFactory uiFactory, IAssetsAddressableService assetsAddressableService, IAbstractFactory abstractFactory,
-        GameSettings gameSettings)
+        GameSettings gameSettings, ICellsMatrixWatcher cellsMatrixWatcher, IShootableBallsContainer shootableBallsContainer)
     {
         StateMachine = new StateMachine<GameInstance>(this, 
             new BootstrapState(this),
@@ -15,7 +15,8 @@ public class GameInstance
             new MainMenuState(this, uiFactory),
             new GameLoadingState(this, uiFactory),
             new SetUpGameplayState(this, assetsAddressableService, abstractFactory, gameSettings),
-            new GameplayState(this));
+            new GameplayState(this, uiFactory, cellsMatrixWatcher, shootableBallsContainer),
+            new LoseState(this, uiFactory));
         
         StateMachine.SwitchState<BootstrapState>();
     }

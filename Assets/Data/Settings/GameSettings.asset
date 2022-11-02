@@ -17,7 +17,7 @@ MonoBehaviour:
   _cannonRotationSpeed: 700
   _ballMovementSpeed: 10
   _maxBallWallsCollides: 5
-  _targetFPS: 60
-  _minBallsAmount: 40
-  _maxBallsAmount: 64
+  _targetFPS: 300
+  _minBallsAmount: 64
+  _maxBallsAmount: 100
   _gameBallsAmount: 999
