@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class ShootableBallsContainer : IShootableBallsContainer
 {
-    public event UnityAction<Color> NextBallColorChanged;
+    public event UnityAction<Color, int> NextBallColorChanged;
 
     private List<Ball> _balls = new List<Ball>();
 
@@ -32,7 +32,7 @@ public class ShootableBallsContainer : IShootableBallsContainer
 
     public Ball GetCurrentBall()
     {
-        NextBallColorChanged?.Invoke(_balls[1].Color);
+        NextBallColorChanged?.Invoke(_balls[1].Color, _balls.Count - 1);
         return _balls[0];
     }
 

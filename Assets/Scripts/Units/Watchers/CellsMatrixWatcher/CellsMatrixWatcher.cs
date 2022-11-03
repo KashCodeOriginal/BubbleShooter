@@ -155,6 +155,8 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
     {
         List<Cell> uncheckedCells = new List<Cell>();
         List<Cell> checkedCells = new List<Cell>();
+        
+        List<Cell> unconnectedCells = new List<Cell>();
 
         var selfBall = Cells[xBallPosition, yBallPosition];
         selfBall.SetCellToVisited();
@@ -190,11 +192,13 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
                 Cells[cell.XPosition, cell.YPosition] =
                     new Cell(CellTypeBehavior.E, null, cell.XPosition, cell.YPosition);
             }
+        }
 
-            if (_ballsInstancesWatcher.Instances.Count <= 1)
-            {
-                PlayerWonGame?.Invoke();
-            }
+        CheckForNearbyNeighbors(ref unconnectedCells);
+        
+        if (_ballsInstancesWatcher.Instances.Count <= 1)
+        {
+            PlayerWonGame?.Invoke();
         }
     }
 
@@ -207,6 +211,11 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
             {
                 if (x != xBallPosition || y != yBallPosition)
                 {
+                    if (x < 0 || x >= ROWS_COUNT || y < 0 || y >= COLUMNS_COUNT)
+                    {
+                        break;
+                    }
+                    
                     if (Cells[x, y].CellType == _ballTypesRelation.GetCellTypeFromBallType(ballType) &&
                         Cells[x, y].IsVisited == false)
                     {
@@ -217,6 +226,47 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
                     }
                 }
             }
+        }
+    }
+    
+    private void CheckForNearbyNeighbors(ref List<Cell> unconnectedCells)
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell.CellType != CellTypeBehavior.E)
+            {
+                int neighbors = 0;
+                
+                for (int x = Math.Max(0, cell.XPosition - 1); x <= Math.Min(cell.XPosition + 1, ROWS_COUNT); x++)
+                {
+                    for (int y = Math.Max(0, cell.YPosition - 1); y <= Math.Min(cell.YPosition + 1, COLUMNS_COUNT); y++)
+                    {
+                        if (x != cell.XPosition || y != cell.YPosition)
+                        {
+                            if (x < 0 || x >= ROWS_COUNT || y < 0 || y >= COLUMNS_COUNT)
+                            {
+                                break;
+                            }
+                        
+                            if (Cells[x, y].CellType != CellTypeBehavior.E)
+                            {
+                                neighbors++;
+                            }
+                        }
+                    }
+                }
+                
+                if (neighbors <= 0)
+                {
+                    unconnectedCells.Add(cell);
+                }
+            }
+        }
+
+        foreach (var cell in unconnectedCells)
+        {
+            Cells[cell.XPosition, cell.YPosition] =
+                new Cell(CellTypeBehavior.E, null, cell.XPosition, cell.YPosition);
         }
     }
     

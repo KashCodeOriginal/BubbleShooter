@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public interface IShootableBallsContainer
 {
-    public event UnityAction<Color> NextBallColorChanged;
+    public event UnityAction<Color, int> NextBallColorChanged;
     public IReadOnlyList<Ball> Balls { get; }
 
     public void RegisterBall(Ball instance);
