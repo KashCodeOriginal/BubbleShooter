@@ -16,37 +16,36 @@ public class MovingBallCollides : MonoBehaviour, IDestroyable
     private GameSettings _gameSettings;
     private IMovable _movable;
 
-    private bool _canCollide;
-
     private int _collidesCount;
 
+    private bool _canCollide;
 
     private void Start()
     {
         _movable = GetComponent<IMovable>();
 
-        _collidesCount = 0;
-
         _canCollide = true;
+        
+        _collidesCount = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("StaticBall") || _collidesCount >= _gameSettings.MaxBallWallsCollider)
+        if (_canCollide)
         {
-            if (_canCollide)
+            if (col.gameObject.CompareTag("StaticBall") || _collidesCount >= _gameSettings.MaxBallWallsCollider)
             {
-                OnBallDestroyed?.Invoke();
                 _canCollide = false;
+                OnBallDestroyed?.Invoke();
                 return;
             }
-        }
             
-        _collidesCount++;
+            _collidesCount++;
 
-        if (col.gameObject.CompareTag("Wall"))
-        {
-            _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
+            if (col.gameObject.CompareTag("Wall"))
+            {
+                _movable.SetMovingDirection(Vector2.Reflect(_movable.TargetDirection, col.contacts[0].normal));
+            }
         }
     }
 }

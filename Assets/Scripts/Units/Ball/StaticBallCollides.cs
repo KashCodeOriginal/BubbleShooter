@@ -1,4 +1,3 @@
-using System;
 using Zenject;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class StaticBallCollides : MonoBehaviour
     {
         _cellsMatrixWatcher = cellsMatrixWatcher;
     }
-    
+
     [SerializeField] private BoxCollider2D _downSideCollider;
     [SerializeField] private BoxCollider2D _upSideCollider;
     [SerializeField] private BoxCollider2D _leftSideCollider;
@@ -28,49 +27,58 @@ public class StaticBallCollides : MonoBehaviour
     {
         if (col.gameObject.CompareTag("MovingBall"))
         {
-            if (_canCollide)
+            if (col.collider.IsTouching(_downSideCollider))
             {
-                if (col.collider.IsTouching(_downSideCollider))
+                if (_canCollide)
                 {
                     _canCollide = false;
-                    ProcessBallConnection(BallConnectionType.Down, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
+                    ProcessBallConnection(BallConnectionType.Down, gameObject.GetComponent<BallSpriteBehavior>(),
+                        col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
             }
 
-            if (_canCollide)
+
+            if (col.collider.IsTouching(_upSideCollider))
             {
-                if (col.collider.IsTouching(_upSideCollider))
+                if (_canCollide)
                 {
                     _canCollide = false;
-                    ProcessBallConnection(BallConnectionType.Up, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
+                    ProcessBallConnection(BallConnectionType.Up, gameObject.GetComponent<BallSpriteBehavior>(),
+                        col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
             }
 
-            if (_canCollide)
+
+            if (col.collider.IsTouching(_leftSideCollider))
             {
-                if (col.collider.IsTouching(_leftSideCollider))
+                if (_canCollide)
                 {
                     _canCollide = false;
-                    ProcessBallConnection(BallConnectionType.Left, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
+                    ProcessBallConnection(BallConnectionType.Left, gameObject.GetComponent<BallSpriteBehavior>(),
+                        col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
             }
 
-            if (_canCollide)
+
+            if (col.collider.IsTouching(_rightSideCollider))
             {
-                if (col.collider.IsTouching(_rightSideCollider))
+                if (_canCollide)
                 {
                     _canCollide = false;
-                    ProcessBallConnection(BallConnectionType.Right, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
+                    ProcessBallConnection(BallConnectionType.Right, gameObject.GetComponent<BallSpriteBehavior>(),
+                        col.gameObject.GetComponent<BallSpriteBehavior>());
                 }
             }
         }
     }
 
-    private void ProcessBallConnection(BallConnectionType connectionType, BallSpriteBehavior originalBallSpriteBehavior, BallSpriteBehavior shootedBallSpriteBehavior)
+    private void ProcessBallConnection(BallConnectionType connectionType, BallSpriteBehavior originalBallSpriteBehavior,
+        BallSpriteBehavior shootedBallSpriteBehavior)
     {
-        _cellsMatrixWatcher.ProcessBallConnection(connectionType, originalBallSpriteBehavior, shootedBallSpriteBehavior);
+        _cellsMatrixWatcher.ProcessBallConnection(connectionType, originalBallSpriteBehavior,
+            shootedBallSpriteBehavior);
     }
 }

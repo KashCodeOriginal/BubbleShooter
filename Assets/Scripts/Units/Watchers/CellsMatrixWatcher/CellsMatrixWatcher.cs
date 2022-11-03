@@ -1,6 +1,8 @@
 using System;
+using Cysharp.Threading.Tasks;
 using KasherOriginal.Settings;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
@@ -22,6 +24,8 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
     private readonly IBallTypesRelation _ballTypesRelation;
     private readonly GameSettings _gameSettings;
     private readonly IBallsInstancesWatcher _ballsInstancesWatcher;
+
+    private bool _canProcessBall = true;
 
     private CellTypeBehavior[] _cellTypes = new[]
     {
@@ -71,6 +75,15 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
     public void ProcessBallConnection(BallConnectionType connectionType, BallSpriteBehavior originalBallSpriteBehavior,
         BallSpriteBehavior shootedBallSpriteBehavior)
     {
+        if (!_canProcessBall)
+        {
+            return;
+        }
+
+        _canProcessBall = false;
+        
+        DelayProcessTimer();
+        
         var originalCell = FindCellByBall(originalBallSpriteBehavior);
 
         if (originalCell != null)
@@ -206,4 +219,10 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
             }
         }
     }
+    
+    private async void DelayProcessTimer()
+    {
+        await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+        _canProcessBall = true;
+    } 
 }
