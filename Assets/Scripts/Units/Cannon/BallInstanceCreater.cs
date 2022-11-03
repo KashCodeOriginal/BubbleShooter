@@ -7,13 +7,13 @@ public class BallInstanceCreater : MonoBehaviour
 
     private GameObject _cannon;
 
-    //private ILevelBuilder _levelBuilder;
+    private ILevelBuilder _levelBuilder;
 
     private void Start()
     {
         _ballSpawner = GetComponent<BallSpawner>();
 
-        //_levelBuilder = GetComponent<ILevelBuilder>();
+        _levelBuilder = GetComponent<ILevelBuilder>();
         
         _objectInput.OnRotateEnded += CreateBall;
     }
@@ -44,7 +44,7 @@ public class BallInstanceCreater : MonoBehaviour
 
     private void UpdateCells()
     {
-        //_levelBuilder.UpdateCurrentLevel();
+        _levelBuilder.UpdateCurrentLevel();
     }
 
     private void OnDisable()

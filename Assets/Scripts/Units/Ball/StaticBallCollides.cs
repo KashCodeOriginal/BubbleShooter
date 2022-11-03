@@ -26,9 +26,9 @@ public class StaticBallCollides : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (_canCollide)
+        if (col.gameObject.CompareTag("MovingBall"))
         {
-            if (col.gameObject.CompareTag("MovingBall"))
+            if (_canCollide)
             {
                 if (col.collider.IsTouching(_downSideCollider))
                 {
@@ -36,18 +36,30 @@ public class StaticBallCollides : MonoBehaviour
                     ProcessBallConnection(BallConnectionType.Down, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
+            }
+
+            if (_canCollide)
+            {
                 if (col.collider.IsTouching(_upSideCollider))
                 {
                     _canCollide = false;
                     ProcessBallConnection(BallConnectionType.Up, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
+            }
+
+            if (_canCollide)
+            {
                 if (col.collider.IsTouching(_leftSideCollider))
                 {
                     _canCollide = false;
                     ProcessBallConnection(BallConnectionType.Left, gameObject.GetComponent<BallSpriteBehavior>(), col.gameObject.GetComponent<BallSpriteBehavior>());
                     return;
                 }
+            }
+
+            if (_canCollide)
+            {
                 if (col.collider.IsTouching(_rightSideCollider))
                 {
                     _canCollide = false;

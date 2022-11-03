@@ -13,6 +13,7 @@ namespace KasherOriginal.GlobalStateMachine
 
         private MainMenuScreen _mainMenuScreen;
 
+        private bool _isLevelRandom;
 
         public override void Enter()
         {
@@ -29,8 +30,7 @@ namespace KasherOriginal.GlobalStateMachine
             var gameStartScreen = await _uiFactory.CreateMainMenuScreen();
 
             _mainMenuScreen = gameStartScreen.GetComponent<MainMenuScreen>();
-
-            _mainMenuScreen.OnStartGameButtonClicked += GameStartHandler;
+            
             _mainMenuScreen.RandomLevelButtonClicked += RandomLevelSelected;
             _mainMenuScreen.GeneratedLevelButtonClicked += GeneratedLevelSelected;
         }
@@ -39,20 +39,19 @@ namespace KasherOriginal.GlobalStateMachine
         {
             _uiFactory.DestroyMainMenuScreen();
         }
-
-        private void GameStartHandler()
-        {
-            Context.StateMachine.SwitchState<GameLoadingState>();
-        }
-
+        
         private void RandomLevelSelected()
         {
+            _isLevelRandom = true;
             
+            Context.StateMachine.SwitchState<GameLoadingState, bool>(_isLevelRandom);
         }
         
         private void GeneratedLevelSelected()
         {
+            _isLevelRandom = false;
             
+            Context.StateMachine.SwitchState<GameLoadingState, bool>(_isLevelRandom);
         }
     }
 

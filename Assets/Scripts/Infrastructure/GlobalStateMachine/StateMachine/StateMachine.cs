@@ -37,6 +37,17 @@ namespace KasherOriginal.GlobalStateMachine
             
             newState?.Enter();
         }
+        
+        public void SwitchState<TState, T0>(T0 arg0) where TState : StateOneParam<TContext, T0>
+        {
+            CurrentState?.Exit();
+
+            TState newState = GetState<TState>();
+            
+            CurrentState = newState;
+            
+            newState.Enter(arg0);
+        }
 
         private async void TickAsync()
         {

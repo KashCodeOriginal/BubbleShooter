@@ -6,15 +6,13 @@ using KasherOriginal.Factories.BallFactory;
 public class BallDestroyHandler : MonoBehaviour
 {
     [Inject]
-    public void Construct(IBallsInstancesWatcher ballsInstancesWatcher, IBallsFactory ballsFactory)
+    public void Construct(IBallsFactory ballsFactory)
     {
-        _ballsInstancesWatcher = ballsInstancesWatcher;
         _ballsFactory = ballsFactory;
     }
     
     private IDestroyable _destroyable;
     private IBallsFactory _ballsFactory;
-    private IBallsInstancesWatcher _ballsInstancesWatcher;
 
     private void Start()
     {
@@ -25,11 +23,17 @@ public class BallDestroyHandler : MonoBehaviour
 
     private void DestroyInstance()
     {
-        _ballsFactory.DestroyInstance(gameObject);
+        StartCoroutine(WaitForCallback());
     }
 
     private void OnDisable()
     {
         _destroyable.OnBallDestroyed -= DestroyInstance;
+    }
+
+    private IEnumerator WaitForCallback()
+    {
+        yield return new WaitForSeconds(0.01f);
+        _ballsFactory.DestroyInstance(gameObject);
     }
 }

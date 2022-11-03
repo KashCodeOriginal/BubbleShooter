@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Zenject;
 using UnityEngine;
 
@@ -10,21 +12,35 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         _ballsInstancesWatcher = ballsInstancesWatcher;
     }
 
+    [SerializeField] private float _updateTime;
     [SerializeField] private float _distance;
     [SerializeField] private Vector3 _centerPosition;
 
     private ICellsMatrixWatcher _cellsMatrixWatcher;
     private BallSpawner _ballSpawner;
     private IBallsInstancesWatcher _ballsInstancesWatcher;
-    
+
+    private Cell[,] _currentGeneratedLevel;
+    private bool _isLevelRandom;
+
     private void Start()
     {
         _ballSpawner = FindObjectOfType<BallSpawner>();
+
+        if (_isLevelRandom)
+        {
+            BuildRandomLevel();
+            return;
+        }
+        
+        BuildGeneratedLevel();
     }
 
-    private void Update()
+    public void SetLevelGenerationWay(bool isLevelRandom, Cell[,] generatedLevel)
     {
-        UpdateCurrentLevel();
+        _isLevelRandom = isLevelRandom;
+
+        _currentGeneratedLevel = generatedLevel;
     }
 
     public void BuildRandomLevel()
@@ -34,17 +50,16 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         BuildLevel(_cellsMatrixWatcher.Cells);
     }
 
-    public void BuildGeneratedLevel(Cell[,] generatedLevel)
+    public void BuildGeneratedLevel()
     {
         _ballsInstancesWatcher.DestroyAllInstances();
-        _cellsMatrixWatcher.SetLevelField(generatedLevel);
+        _cellsMatrixWatcher.SetLevelField(_currentGeneratedLevel);
         BuildLevel(_cellsMatrixWatcher.Cells);
     }
 
     public void UpdateCurrentLevel()
     {
-        _ballsInstancesWatcher.DestroyAllInstances();
-        BuildLevel(_cellsMatrixWatcher.Cells);
+        StartCoroutine(BuildDelay());
     }
 
     private BallTypeBehavior GetBallType(CellTypeBehavior cellType)
@@ -108,5 +123,12 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         return cornerPosition + 
                Vector2.down * column * distance + 
                Vector2.right * row * distance;
+    }
+
+    private IEnumerator BuildDelay()
+    {
+        yield return new WaitForSeconds(_updateTime);
+        _ballsInstancesWatcher.DestroyAllInstances();
+        BuildLevel(_cellsMatrixWatcher.Cells);
     }
 }

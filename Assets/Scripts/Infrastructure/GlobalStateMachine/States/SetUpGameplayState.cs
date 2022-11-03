@@ -5,7 +5,7 @@ using KasherOriginal.Factories.AbstractFactory;
 
 namespace KasherOriginal.GlobalStateMachine
 {
-    public class SetUpGameplayState : State<GameInstance>
+    public class SetUpGameplayState : StateOneParam<GameInstance, bool>
     {
         public SetUpGameplayState(GameInstance context, IAssetsAddressableService assetsAddressableService,
             IAbstractFactory abstractFactory, GameSettings gameSettings) : base(context)
@@ -19,7 +19,7 @@ namespace KasherOriginal.GlobalStateMachine
         private readonly IAbstractFactory _abstractFactory;
         private readonly GameSettings _gameSettings;
 
-        public override async void Enter()
+        public override async void Enter(bool isLevelRandom)
         {
             var mapPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.BASE_MAP);
             var cannonPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.CANNON);
@@ -32,12 +32,12 @@ namespace KasherOriginal.GlobalStateMachine
             var levelBuilderInstance = _abstractFactory.CreateInstance(levelBuilderPrefab, Vector3.zero);
             
 
-            SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance);
+            SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance, isLevelRandom);
             
             Context.StateMachine.SwitchState<GameplayState>();
         }
 
-        private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder)
+        private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder, bool isLevelRandom)
         {
             if (cannonControl.TryGetComponent(out IRotatable rotatable))
             {
@@ -52,6 +52,17 @@ namespace KasherOriginal.GlobalStateMachine
             if (levelBuilder.GetComponentInChildren<BallSpawner>())
             {
                 levelBuilder.GetComponentInChildren<BallSpawner>().Construct(cannon.transform.GetChild(0));
+            }
+            
+            if (levelBuilder.TryGetComponent(out LevelBuilder levelBuilderComponent))
+            {
+                if (isLevelRandom)
+                {
+                    levelBuilderComponent.SetLevelGenerationWay(true, null);
+                    return;
+                }
+                
+                levelBuilderComponent.SetLevelGenerationWay(false, new Cell[CellsMatrixWatcher.ROWS_COUNT,CellsMatrixWatcher.COLUMNS_COUNT]);
             }
         }
     }
