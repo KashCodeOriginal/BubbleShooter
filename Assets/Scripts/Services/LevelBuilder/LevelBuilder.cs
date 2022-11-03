@@ -1,7 +1,6 @@
-using System;
-using System.Collections;
 using Zenject;
 using UnityEngine;
+using System.Collections;
 
 public class LevelBuilder : MonoBehaviour, ILevelBuilder
 {

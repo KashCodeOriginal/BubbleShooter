@@ -12,8 +12,8 @@ public class LevelsContainer
 
     private Cell[] zigzagLevel = new Cell[]
     {
-        new Cell(CellTypeBehavior.B, null, 1, 1),
-        new Cell(CellTypeBehavior.G, null, 2, 2)
+        new(CellTypeBehavior.B, null, 1, 1),
+        new(CellTypeBehavior.G, null, 2, 2)
     };
 
     public Cell[][] Levels => _levels;

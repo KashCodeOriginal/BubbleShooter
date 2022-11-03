@@ -8,16 +8,20 @@ namespace KasherOriginal.GlobalStateMachine
     public class SetUpGameplayState : StateOneParam<GameInstance, bool>
     {
         public SetUpGameplayState(GameInstance context, IAssetsAddressableService assetsAddressableService,
-            IAbstractFactory abstractFactory, GameSettings gameSettings) : base(context)
+            IAbstractFactory abstractFactory, GameSettings gameSettings, IGeneratedLevelCreator generatedLevelCreator) : base(context)
         {
             _assetsAddressableService = assetsAddressableService;
             _abstractFactory = abstractFactory;
             _gameSettings = gameSettings;
+            _generatedLevelCreator = generatedLevelCreator;
         }
 
         private readonly IAssetsAddressableService _assetsAddressableService;
         private readonly IAbstractFactory _abstractFactory;
         private readonly GameSettings _gameSettings;
+        private readonly IGeneratedLevelCreator _generatedLevelCreator;
+
+        private LevelsContainer _levelsContainer;
 
         public override async void Enter(bool isLevelRandom)
         {
@@ -61,8 +65,13 @@ namespace KasherOriginal.GlobalStateMachine
                     levelBuilderComponent.SetLevelGenerationWay(true, null);
                     return;
                 }
-                
-                levelBuilderComponent.SetLevelGenerationWay(false, new Cell[CellsMatrixWatcher.ROWS_COUNT,CellsMatrixWatcher.COLUMNS_COUNT]);
+
+                _levelsContainer = new LevelsContainer();
+
+                var currentCell =
+                    _generatedLevelCreator.CreateLevel(_levelsContainer.Levels[Random.Range(0, _levelsContainer.Levels.Length)]);
+
+                levelBuilderComponent.SetLevelGenerationWay(false, currentCell);
             }
         }
     }

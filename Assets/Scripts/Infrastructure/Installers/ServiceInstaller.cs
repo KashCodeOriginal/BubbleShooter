@@ -20,6 +20,7 @@ public class ServiceInstaller : MonoInstaller
         BindCellMatrixWatcher();
         BindBallInstancesWatcher();
         BindShootableBallsContainer();
+        BindGeneratedLevelsCreation();
     }
 
     private void BindAssetsAddressable()
@@ -65,5 +66,10 @@ public class ServiceInstaller : MonoInstaller
     private void BindShootableBallsContainer()
     {
         Container.BindInterfacesTo<ShootableBallsContainer>().AsSingle();
+    }
+    
+    private void BindGeneratedLevelsCreation()
+    {
+        Container.BindInterfacesTo<GeneratedLevelCreator>().AsSingle();
     }
 }

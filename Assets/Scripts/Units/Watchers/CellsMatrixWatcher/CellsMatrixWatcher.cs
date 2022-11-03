@@ -40,7 +40,9 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
 
     public void CreateRandomField()
     {
-        CreateEmptyFieldOfCells();
+        var emptyCell = CreateEmptyFieldOfCells();
+
+        Cells = emptyCell;
 
         int randomBallsAmount = Random.Range(_gameSettings.MinBallsAmount, _gameSettings.MaxBallsAmount);
 
@@ -126,16 +128,20 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
     }
 
 
-    private void CreateEmptyFieldOfCells()
+    public Cell[,] CreateEmptyFieldOfCells()
     {
+        Cell[,] emptyField = new Cell[ROWS_COUNT,COLUMNS_COUNT];
+        
         for (int x = 0; x < ROWS_COUNT; x++)
         {
             for (int y = 0; y < COLUMNS_COUNT; y++)
             {
                 Cell cell = new Cell(CellTypeBehavior.E, null, x, y);
-                Cells[x, y] = cell;
+                emptyField[x, y] = cell;
             }
         }
+
+        return emptyField;
     }
 
     private Cell FindCellByBall(BallSpriteBehavior ballSpriteBehavior)
