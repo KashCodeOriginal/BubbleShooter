@@ -20,10 +20,6 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
     private void Start()
     {
         _ballSpawner = FindObjectOfType<BallSpawner>();
-        
-        _cellsMatrixWatcher.CreateRandomField();
-        
-        BuildRandomLevel();
     }
 
     private void Update()
@@ -35,7 +31,13 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
     {
         _ballsInstancesWatcher.DestroyAllInstances();
         _cellsMatrixWatcher.CreateRandomField();
-        _cellsMatrixWatcher.SetLevelField(_cellsMatrixWatcher.Cells);
+        BuildLevel(_cellsMatrixWatcher.Cells);
+    }
+
+    public void BuildGeneratedLevel(Cell[,] generatedLevel)
+    {
+        _ballsInstancesWatcher.DestroyAllInstances();
+        _cellsMatrixWatcher.SetLevelField(generatedLevel);
         BuildLevel(_cellsMatrixWatcher.Cells);
     }
 

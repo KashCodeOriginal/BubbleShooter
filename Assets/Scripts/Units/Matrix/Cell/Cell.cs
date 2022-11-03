@@ -12,20 +12,16 @@ public class Cell
     {
         _isVisited = true;
     }
-
-    public void SetSellToUnvisited()
-    {
-        _isVisited = false;
-    }
+    
     
     private CellTypeBehavior _cellType;
     private BallSpriteBehavior _ballSpriteBehavior;
 
-    private bool _isVisited;
-
     private int _xPosition;
     private int _yPosition;
     
+    private bool _isVisited;
+
     public CellTypeBehavior CellType => _cellType;
     public BallSpriteBehavior BallSpriteBehavior => _ballSpriteBehavior;
     public int XPosition => _xPosition;

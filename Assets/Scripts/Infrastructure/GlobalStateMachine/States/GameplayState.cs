@@ -21,6 +21,7 @@ namespace KasherOriginal.GlobalStateMachine
         public override void Enter()
         {
             _cellsMatrixWatcher.BallOutOfBorder += ChangeToLoseState;
+            _cellsMatrixWatcher.PlayerWonGame += ChangeToWinState;
 
             ShowUI();
         }
@@ -28,6 +29,7 @@ namespace KasherOriginal.GlobalStateMachine
         public override void Exit()
         {
             _cellsMatrixWatcher.BallOutOfBorder -= ChangeToLoseState;
+            _cellsMatrixWatcher.PlayerWonGame -= ChangeToWinState;
             
             _shootableBallsContainer.DeleteAllBalls();
 
@@ -37,6 +39,11 @@ namespace KasherOriginal.GlobalStateMachine
         private void ChangeToLoseState()
         {
             Context.StateMachine.SwitchState<LoseState>();
+        }
+        
+        private void ChangeToWinState()
+        {
+            Context.StateMachine.SwitchState<WinState>();
         }
 
         private void ShowUI()

@@ -16,7 +16,8 @@ public class GameInstance
             new GameLoadingState(this, uiFactory),
             new SetUpGameplayState(this, assetsAddressableService, abstractFactory, gameSettings),
             new GameplayState(this, uiFactory, cellsMatrixWatcher, shootableBallsContainer),
-            new LoseState(this, uiFactory));
+            new LoseState(this, uiFactory),
+            new WinState(this, uiFactory));
         
         StateMachine.SwitchState<BootstrapState>();
     }

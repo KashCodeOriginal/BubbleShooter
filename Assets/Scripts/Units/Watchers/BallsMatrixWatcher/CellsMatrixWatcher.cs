@@ -1,23 +1,25 @@
 using System;
 using KasherOriginal.Settings;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
 {
-    public CellsMatrixWatcher(IBallTypesRelation ballTypesRelation, GameSettings gameSettings)
+    public CellsMatrixWatcher(IBallTypesRelation ballTypesRelation, GameSettings gameSettings, IBallsInstancesWatcher ballsInstancesWatcher)
     {
         _ballTypesRelation = ballTypesRelation;
         _gameSettings = gameSettings;
+        _ballsInstancesWatcher = ballsInstancesWatcher;
     }
     public event Action BallOutOfBorder;
-    
+    public event Action PlayerWonGame;
+
     public const int ROWS_COUNT = 14;
     public const int COLUMNS_COUNT = 18;
     
-    private IBallTypesRelation _ballTypesRelation;
-    private GameSettings _gameSettings;
+    private readonly IBallTypesRelation _ballTypesRelation;
+    private readonly GameSettings _gameSettings;
+    private readonly IBallsInstancesWatcher _ballsInstancesWatcher;
 
     private CellTypeBehavior[] _cellTypes = new[]
     {
@@ -38,7 +40,7 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
 
         for (int i = 0; i < randomBallsAmount;)
         {
-            int randomRow = Random.Range(1, ROWS_COUNT - 1);
+            int randomRow = Random.Range(0, ROWS_COUNT);
             int randomColumn = Random.Range(0, COLUMNS_COUNT - 8);
             
             CellTypeBehavior randomCellType = _cellTypes[Random.Range(0, _cellTypes.Length)];
@@ -161,7 +163,15 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
 
         if (checkedCells.Count >= 3)
         {
-            
+            foreach (Cell cell in checkedCells)
+            {
+                Cells[cell.XPosition, cell.YPosition] = new Cell(CellTypeBehavior.E, null, cell.XPosition, cell.YPosition);
+            }
+
+            if (_ballsInstancesWatcher.Instances.Count <= 1)
+            {
+                PlayerWonGame?.Invoke();
+            }
         }
     }
 

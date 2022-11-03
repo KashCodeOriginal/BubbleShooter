@@ -31,6 +31,8 @@ namespace KasherOriginal.GlobalStateMachine
             _mainMenuScreen = gameStartScreen.GetComponent<MainMenuScreen>();
 
             _mainMenuScreen.OnStartGameButtonClicked += GameStartHandler;
+            _mainMenuScreen.RandomLevelButtonClicked += RandomLevelSelected;
+            _mainMenuScreen.GeneratedLevelButtonClicked += GeneratedLevelSelected;
         }
 
         private void HideUI()
@@ -42,5 +44,16 @@ namespace KasherOriginal.GlobalStateMachine
         {
             Context.StateMachine.SwitchState<GameLoadingState>();
         }
+
+        private void RandomLevelSelected()
+        {
+            
+        }
+        
+        private void GeneratedLevelSelected()
+        {
+            
+        }
     }
+
 }
