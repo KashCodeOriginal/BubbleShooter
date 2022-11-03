@@ -1,9 +1,7 @@
 using System;
+using KasherOriginal.Settings;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Mathematics;
-using UnityEngine.Events;
-using KasherOriginal.Settings;
 using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
@@ -132,56 +130,60 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
 
     private void FindAllNeighbors(BallTypeBehavior ballType, int xBallPosition, int yBallPosition)
     {
-        List<Neighbor> uncheckedNeighbors = new List<Neighbor>();
-        List<Neighbor> checkedNeighbors = new List<Neighbor>();
+        List<Cell> uncheckedCells = new List<Cell>();
+        List<Cell> checkedCells = new List<Cell>();
 
-        var seltNeighbor = new Neighbor(Cells[xBallPosition, yBallPosition]);
-        
-        checkedNeighbors.Add(seltNeighbor);
-        
-        CheckForNearbyNeighbors(ballType, xBallPosition, yBallPosition, ref uncheckedNeighbors);
+        var selfBall = Cells[xBallPosition, yBallPosition];
+        selfBall.SetCellToVisited();
 
-        while (uncheckedNeighbors.Count > 0)
+        checkedCells.Add(selfBall);
+        
+        CheckForNearbyNeighbors(ballType, xBallPosition, yBallPosition, ref uncheckedCells);
+        
+        if (uncheckedCells.Count > 0)
         {
-            CheckForNearbyNeighbors(ballType, uncheckedNeighbors[0].Cell.XPosition, uncheckedNeighbors[0].Cell.YPosition, ref uncheckedNeighbors);
-            checkedNeighbors.Add(uncheckedNeighbors[0]);
-            uncheckedNeighbors.Remove(uncheckedNeighbors[0]);
+            CheckNeighbor();
+        }
+        
+        void CheckNeighbor()
+        {
+            CheckForNearbyNeighbors(ballType, uncheckedCells[0].XPosition, uncheckedCells[0].YPosition, ref uncheckedCells);
+            
+            checkedCells.Add(uncheckedCells[0]);
+
+            uncheckedCells.Remove(uncheckedCells[0]);
+
+            if (uncheckedCells.Count > 0)
+            {
+                CheckNeighbor();
+            }
         }
 
-        foreach (var neighbor in uncheckedNeighbors)
+        if (checkedCells.Count >= 3)
         {
-            Debug.Log(neighbor.Cell.CellType);
+            
         }
     }
 
-    private void CheckForNearbyNeighbors(BallTypeBehavior ballType, int xBallPosition, int yBallPosition, ref List<Neighbor> uncheckedNeighbors)
+    private void CheckForNearbyNeighbors(BallTypeBehavior ballType, int xBallPosition, int yBallPosition, ref List<Cell> uncheckedNeighbors)
     {
-        for (int x = math.max(0, xBallPosition - 1); x <= math.min(xBallPosition + 1, ROWS_COUNT - 1); x++)
+        for (int x = Math.Max(0, xBallPosition - 1); x <= Math.Min(xBallPosition + 1, ROWS_COUNT); x++)
         {
-            for (int y = math.max(0, yBallPosition - 1); y <= math.min(yBallPosition + 1, COLUMNS_COUNT - 1); y++)
+            for (int y = Math.Max(0, yBallPosition - 1); y <= Math.Min(yBallPosition + 1, COLUMNS_COUNT); y++)
             {
-                if (x != xBallPosition && y != yBallPosition)
+                if (x != xBallPosition || y != yBallPosition)
                 {
-                    if (Cells[x, y].CellType == _ballTypesRelation.GetCellTypeFromBallType(ballType))
+                    if (Cells[x, y].CellType == _ballTypesRelation.GetCellTypeFromBallType(ballType) && Cells[x,y].IsVisited == false)
                     {
-                        var neighbor = new Neighbor(Cells[x, y]);
-
-                        uncheckedNeighbors.Add(neighbor);
+                        var neighborCell = Cells[x, y];
+                        neighborCell.SetCellToVisited();
+                        
+                        uncheckedNeighbors.Add(neighborCell);
                     }
                 }
             }
         }
     }
-}
-
-public struct Neighbor
-{
-    private Cell _cell;
-
-    public Cell Cell => _cell;
-
-    public Neighbor(Cell cell)
-    {
-        _cell = cell;
-    }
+    
+    
 }

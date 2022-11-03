@@ -7,9 +7,21 @@ public class Cell
         _xPosition = xPosition;
         _yPosition = yPosition;
     }
+
+    public void SetCellToVisited()
+    {
+        _isVisited = true;
+    }
+
+    public void SetSellToUnvisited()
+    {
+        _isVisited = false;
+    }
     
     private CellTypeBehavior _cellType;
     private BallSpriteBehavior _ballSpriteBehavior;
+
+    private bool _isVisited;
 
     private int _xPosition;
     private int _yPosition;
@@ -18,4 +30,5 @@ public class Cell
     public BallSpriteBehavior BallSpriteBehavior => _ballSpriteBehavior;
     public int XPosition => _xPosition;
     public int YPosition => _yPosition;
+    public bool IsVisited => _isVisited;
 }
