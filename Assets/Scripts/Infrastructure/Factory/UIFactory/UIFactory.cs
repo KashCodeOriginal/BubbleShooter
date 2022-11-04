@@ -22,6 +22,7 @@ namespace KasherOriginal.Factories.UIFactory
         public GameObject GameplayScreen { get; private set; }
         public GameObject GameLoseScreen { get; private set; }
         public GameObject GameWinScreen { get; private set; }
+        public GameObject GamePauseScreen { get; private set; }
 
         public async Task<GameObject> CreateLoadingScreen()
         {
@@ -91,6 +92,20 @@ namespace KasherOriginal.Factories.UIFactory
         public void DestroyGameWinScreen()
         {
             Object.Destroy(GameWinScreen);
+        }
+
+        public async Task<GameObject> CreateGamePauseScreen()
+        {
+            var gamePauseScreenPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.GAME_PAUSE_SCREEN);
+
+            GamePauseScreen = _container.InstantiatePrefab(gamePauseScreenPrefab);
+
+            return GamePauseScreen;
+        }
+
+        public void DestroyGamePauseScreen()
+        {
+            Object.Destroy(GamePauseScreen);
         }
     }
 }

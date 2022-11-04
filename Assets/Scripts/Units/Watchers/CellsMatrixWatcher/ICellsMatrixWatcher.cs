@@ -3,7 +3,6 @@ using System;
 public interface ICellsMatrixWatcher
 {
     public event Action BallOutOfBorder;
-    public event Action PlayerWonGame;
     public Cell[,] Cells { get; }
     public Cell[,] CreateEmptyFieldOfCells();
     public void CreateRandomField();

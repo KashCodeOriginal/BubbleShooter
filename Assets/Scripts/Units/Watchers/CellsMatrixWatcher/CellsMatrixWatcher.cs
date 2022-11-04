@@ -6,23 +6,19 @@ using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
 {
-    public CellsMatrixWatcher(IBallTypesRelation ballTypesRelation, GameSettings gameSettings,
-        IBallsInstancesWatcher ballsInstancesWatcher)
+    public CellsMatrixWatcher(IBallTypesRelation ballTypesRelation, GameSettings gameSettings)
     {
         _ballTypesRelation = ballTypesRelation;
         _gameSettings = gameSettings;
-        _ballsInstancesWatcher = ballsInstancesWatcher;
     }
 
     public event Action BallOutOfBorder;
-    public event Action PlayerWonGame;
 
     public const int ROWS_COUNT = 14;
     public const int COLUMNS_COUNT = 18;
 
     private readonly IBallTypesRelation _ballTypesRelation;
     private readonly GameSettings _gameSettings;
-    private readonly IBallsInstancesWatcher _ballsInstancesWatcher;
 
     private bool _canProcessBall = true;
 
@@ -198,13 +194,8 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
                     new Cell(CellTypeBehavior.E, null, cell.XPosition, cell.YPosition);
             }
         }
-
-        CheckForNearbyNeighbors(ref unconnectedCells);
         
-        if (_ballsInstancesWatcher.Instances.Count <= 1)
-        {
-            PlayerWonGame?.Invoke();
-        }
+        CheckForNearbyNeighbors(ref unconnectedCells);
     }
 
     private void CheckForNearbyNeighbors(BallTypeBehavior ballType, int xBallPosition, int yBallPosition,

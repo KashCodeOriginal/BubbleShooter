@@ -9,6 +9,7 @@ namespace KasherOriginal.Factories.UIFactory
         public GameObject GameplayScreen { get; }
         public GameObject GameLoseScreen { get; }
         public GameObject GameWinScreen { get; }
+        public GameObject GamePauseScreen { get; }
     }
 }
 

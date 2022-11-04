@@ -1,3 +1,4 @@
+using System;
 using Zenject;
 using UnityEngine;
 using System.Collections;
@@ -11,6 +12,8 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         _ballsInstancesWatcher = ballsInstancesWatcher;
     }
 
+    public event Action PlayerWonGame;
+
     [SerializeField] private float _updateTime;
     [SerializeField] private float _distance;
     [SerializeField] private Vector3 _centerPosition;
@@ -21,6 +24,7 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
 
     private Cell[,] _currentGeneratedLevel;
     private bool _isLevelRandom;
+
 
     private void Start()
     {
@@ -129,5 +133,10 @@ public class LevelBuilder : MonoBehaviour, ILevelBuilder
         yield return new WaitForSeconds(_updateTime);
         _ballsInstancesWatcher.DestroyAllInstances();
         BuildLevel(_cellsMatrixWatcher.Cells);
+
+        if (_ballsInstancesWatcher.Instances.Count <= 0)
+        {
+            PlayerWonGame?.Invoke();
+        }
     }
 }

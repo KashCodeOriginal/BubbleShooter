@@ -1,8 +1,9 @@
 using KasherOriginal.Factories.UIFactory;
+using UnityEngine;
 
 namespace KasherOriginal.GlobalStateMachine
 {
-    public class GameplayState : StateOneParam<GameInstance, BallSpawner>
+    public class GameplayState : StateTwoParam<GameInstance, BallSpawner, ILevelBuilder>
     {
         public GameplayState(GameInstance context, IUIFactory uiFactory, ICellsMatrixWatcher cellsMatrixWatcher,
             IShootableBallsContainer shootableBallsContainer) :
@@ -17,27 +18,36 @@ namespace KasherOriginal.GlobalStateMachine
         private readonly ICellsMatrixWatcher _cellsMatrixWatcher;
         private readonly IShootableBallsContainer _shootableBallsContainer;
 
+        private GameObject _gameplayScreenInstance;
+        private GameplayScreen _gameplayScreen;
+        
+        private GameObject _gamePauseScreenInstance;
+        private GamePauseScreen _gamePauseScreen;
+
         private BallSpawner _ballSpawner;
+        private ILevelBuilder _levelBuilder;
         
 
-        public override void Enter(BallSpawner ballSpawner)
+        public override void Enter(BallSpawner ballSpawner, ILevelBuilder levelBuilder)
         {
             _ballSpawner = ballSpawner;
+            _levelBuilder = levelBuilder;
             
             _cellsMatrixWatcher.BallOutOfBorder += ChangeToLoseState;
-            _cellsMatrixWatcher.PlayerWonGame += ChangeToWinState;
+            _levelBuilder.PlayerWonGame += ChangeToWinState;
             _ballSpawner.BallsAmountIsZero += ChangeToLoseState;
-
             ShowUI();
         }
 
         public override void Exit()
         {
             _cellsMatrixWatcher.BallOutOfBorder -= ChangeToLoseState;
-            _cellsMatrixWatcher.PlayerWonGame -= ChangeToWinState;
+            _levelBuilder.PlayerWonGame -= ChangeToWinState;
             _ballSpawner.BallsAmountIsZero -= ChangeToLoseState;
+            _gamePauseScreen.BackToMenuButtonClicked -= ChangeToLoseState;
             
             _shootableBallsContainer.DeleteAllBalls();
+            _uiFactory.DestroyGamePauseScreen();
 
             HideUI();
         }
@@ -52,14 +62,37 @@ namespace KasherOriginal.GlobalStateMachine
             Context.StateMachine.SwitchState<WinState>();
         }
 
-        private void ShowUI()
+        private async void ShowUI()
         {
-            _uiFactory.CreateGameplayScreen();
+            _gameplayScreenInstance = await _uiFactory.CreateGameplayScreen();
+
+            _gameplayScreen = _gameplayScreenInstance.GetComponent<GameplayScreen>();
+
+            _gameplayScreen.PauseButtonWasClicked += CreatePauseScreen;
         }
         
         private void HideUI()
         {
+            _gameplayScreen.PauseButtonWasClicked -= CreatePauseScreen;
+            
             _uiFactory.DestroyGameplayScreen();
+        }
+
+        private async void CreatePauseScreen()
+        {
+            _gamePauseScreenInstance = await _uiFactory.CreateGamePauseScreen();
+
+            _gamePauseScreen = _gamePauseScreenInstance.GetComponent<GamePauseScreen>();
+
+            _gamePauseScreen.ContinuePlayButtonClicked += DestroyPauseScreen;
+
+            _gamePauseScreen.BackToMenuButtonClicked += ChangeToLoseState;
+        }
+
+        private void DestroyPauseScreen()
+        {
+            _uiFactory.DestroyGamePauseScreen();
+            _gamePauseScreen.ContinuePlayButtonClicked -= DestroyPauseScreen;
         }
     }
 }

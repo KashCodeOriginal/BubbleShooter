@@ -37,7 +37,7 @@ namespace KasherOriginal.GlobalStateMachine
 
             SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance, isLevelRandom);
             
-            Context.StateMachine.SwitchState<GameplayState, BallSpawner>(levelBuilderInstance.GetComponentInChildren<BallSpawner>());
+            Context.StateMachine.SwitchState<GameplayState, BallSpawner, ILevelBuilder>(levelBuilderInstance.GetComponentInChildren<BallSpawner>(), levelBuilderInstance.GetComponent<ILevelBuilder>());
         }
 
         private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder, bool isLevelRandom)
@@ -57,7 +57,7 @@ namespace KasherOriginal.GlobalStateMachine
                 levelBuilder.GetComponentInChildren<BallSpawner>().Construct(cannon.transform.GetChild(0));
             }
             
-            if (levelBuilder.TryGetComponent(out LevelBuilder levelBuilderComponent))
+            if (levelBuilder.TryGetComponent(out ILevelBuilder levelBuilderComponent))
             {
                 if (isLevelRandom)
                 {

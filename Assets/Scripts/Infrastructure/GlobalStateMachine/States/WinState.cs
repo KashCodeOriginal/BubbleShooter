@@ -38,7 +38,7 @@ namespace KasherOriginal.GlobalStateMachine
 
         private async void ShowUI()
         {
-            _gameWinScreenInstance = await _uiFactory.CreateGameLoseScreen();
+            _gameWinScreenInstance = await _uiFactory.CreateGameWinScreen();
 
             _gameWinScreen = _gameWinScreenInstance.GetComponent<GameWinScreen>();
 
