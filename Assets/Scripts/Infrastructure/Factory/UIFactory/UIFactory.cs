@@ -21,6 +21,7 @@ namespace KasherOriginal.Factories.UIFactory
         public GameObject MainMenuScreen { get; private set; }
         public GameObject GameplayScreen { get; private set; }
         public GameObject GameLoseScreen { get; private set; }
+        public GameObject GameWinScreen { get; private set; }
 
         public async Task<GameObject> CreateLoadingScreen()
         {
@@ -77,7 +78,16 @@ namespace KasherOriginal.Factories.UIFactory
         {
             Object.Destroy(GameLoseScreen);
         }
-        
+
+        public Task<GameObject> CreateGameWinScreen()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DestroyGameWinScreen()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

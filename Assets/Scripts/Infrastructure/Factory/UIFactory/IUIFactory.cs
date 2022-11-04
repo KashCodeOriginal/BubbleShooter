@@ -13,6 +13,8 @@ namespace KasherOriginal.Factories.UIFactory
         public void DestroyGameplayScreen();
         public Task<GameObject> CreateGameLoseScreen();
         public void DestroyGameLoseScreen();
+        public Task<GameObject> CreateGameWinScreen();
+        public void DestroyGameWinScreen();
     }
 }
 
