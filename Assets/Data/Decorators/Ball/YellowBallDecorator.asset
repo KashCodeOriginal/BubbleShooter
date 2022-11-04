@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f6cba39145d54d8fbfdf157e2f297, type: 3}
   m_Name: YellowBallDecorator
   m_EditorClassIdentifier: 
-  _color: {r: 1, g: 1, b: 0, a: 1}
+  _color: {r: 0.9716981, g: 0.94889325, b: 0.17783903, a: 1}
   _ballType: 3

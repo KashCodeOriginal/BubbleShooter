@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea9d9ab7c6b846409cd0451c37156821, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  _cannonInstancePosition: {x: 0, y: -5, z: 0}
+  _cannonInstancePosition: {x: 0, y: -3.6, z: 0}
   _baseMapPosition: {x: -2.67, y: 0, z: 0}
   _cannonRotationSpeed: 700
   _ballMovementSpeed: 10
   _maxBallWallsCollides: 5
   _targetFPS: 300
-  _minBallsAmount: 64
-  _maxBallsAmount: 100
-  _gameBallsAmount: 999
+  _minBallsAmount: 200
+  _maxBallsAmount: 200
+  _gameBallsAmount: 3

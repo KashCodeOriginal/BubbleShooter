@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using KasherOriginal.Settings;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class CellsMatrixWatcher : ICellsMatrixWatcher
@@ -278,7 +277,7 @@ public class CellsMatrixWatcher : ICellsMatrixWatcher
     
     private async void DelayProcessTimer()
     {
-        await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+        await UniTask.Delay(100);
         _canProcessBall = true;
     } 
 }

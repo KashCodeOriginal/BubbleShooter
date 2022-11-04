@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateTime: 0.01
   _distance: 0.53
-  _centerPosition: {x: -2.58, y: 4.7, z: 0}
+  _centerPosition: {x: -2.58, y: 4.8, z: 0}
 --- !u!114 &6277924538756870552
 MonoBehaviour:
   m_ObjectHideFlags: 0

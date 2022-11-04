@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class ShootableBallsContainer : IShootableBallsContainer
 {
@@ -32,6 +30,12 @@ public class ShootableBallsContainer : IShootableBallsContainer
 
     public Ball GetCurrentBall()
     {
+        if (_balls.Count <= 1)
+        {
+            NextBallColorChanged?.Invoke(new Color(0,0,0,0), _balls.Count - 1);
+            return _balls[0];
+        }
+        
         NextBallColorChanged?.Invoke(_balls[1].Color, _balls.Count - 1);
         return _balls[0];
     }

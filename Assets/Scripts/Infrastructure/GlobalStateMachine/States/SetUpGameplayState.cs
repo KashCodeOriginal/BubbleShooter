@@ -34,11 +34,10 @@ namespace KasherOriginal.GlobalStateMachine
             var cannonInstance = _abstractFactory.CreateInstance(cannonPrefab, _gameSettings.CannonInstancePosition);
             var mapInstance = _abstractFactory.CreateInstance(mapPrefab, _gameSettings.BaseMapPosition);
             var levelBuilderInstance = _abstractFactory.CreateInstance(levelBuilderPrefab, Vector3.zero);
-            
 
             SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance, isLevelRandom);
             
-            Context.StateMachine.SwitchState<GameplayState>();
+            Context.StateMachine.SwitchState<GameplayState, BallSpawner>(levelBuilderInstance.GetComponentInChildren<BallSpawner>());
         }
 
         private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder, bool isLevelRandom)

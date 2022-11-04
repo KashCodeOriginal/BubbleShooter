@@ -9,6 +9,8 @@ public class BallInstanceCreater : MonoBehaviour
 
     private ILevelBuilder _levelBuilder;
 
+    private bool _canCreateNewBall = true;
+
     private void Start()
     {
         _ballSpawner = GetComponent<BallSpawner>();
@@ -26,25 +28,38 @@ public class BallInstanceCreater : MonoBehaviour
 
     private async void CreateBall()
     {
-        var ball = await _ballSpawner.CreateMovingBall();
-
-        if (ball != null)
+        if (_canCreateNewBall)
         {
-            if (ball.TryGetComponent(out IMovable movable))
+            _canCreateNewBall = false;
+            
+            var ball = await _ballSpawner.CreateMovingBall();
+
+            if (ball != null)
             {
-                movable.SetUp(_objectInput, _cannon);
-            }
+                if (ball.TryGetComponent(out IMovable movable))
+                {
+                    movable.SetUp(_objectInput, _cannon);
+                }
         
-            if (ball.TryGetComponent(out IDestroyable destroyable))
-            {
-                destroyable.OnBallDestroyed += UpdateCells;
+                if (ball.TryGetComponent(out IDestroyable destroyable))
+                {
+                    destroyable.OnBallDestroyed += UpdateCells;
+                    destroyable.OnBallDestroyed += CanCreateNewBall;
+                }
             }
         }
+
+        
     }
 
     private void UpdateCells()
     {
         _levelBuilder.UpdateCurrentLevel();
+    }
+
+    private void CanCreateNewBall()
+    {
+        _canCreateNewBall = true;
     }
 
     private void OnDisable()

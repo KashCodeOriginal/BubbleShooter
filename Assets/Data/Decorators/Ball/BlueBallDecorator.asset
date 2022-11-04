@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0f6cba39145d54d8fbfdf157e2f297, type: 3}
   m_Name: BlueBallDecorator
   m_EditorClassIdentifier: 
-  _color: {r: 0, g: 0, b: 1, a: 1}
+  _color: {r: 0.2113207, g: 0.48887658, b: 1, a: 1}
   _ballType: 1

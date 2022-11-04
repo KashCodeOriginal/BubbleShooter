@@ -2,7 +2,7 @@ using KasherOriginal.Factories.UIFactory;
 
 namespace KasherOriginal.GlobalStateMachine
 {
-    public class GameplayState : State<GameInstance>
+    public class GameplayState : StateOneParam<GameInstance, BallSpawner>
     {
         public GameplayState(GameInstance context, IUIFactory uiFactory, ICellsMatrixWatcher cellsMatrixWatcher,
             IShootableBallsContainer shootableBallsContainer) :
@@ -16,12 +16,17 @@ namespace KasherOriginal.GlobalStateMachine
         private readonly IUIFactory _uiFactory;
         private readonly ICellsMatrixWatcher _cellsMatrixWatcher;
         private readonly IShootableBallsContainer _shootableBallsContainer;
+
+        private BallSpawner _ballSpawner;
         
 
-        public override void Enter()
+        public override void Enter(BallSpawner ballSpawner)
         {
+            _ballSpawner = ballSpawner;
+            
             _cellsMatrixWatcher.BallOutOfBorder += ChangeToLoseState;
             _cellsMatrixWatcher.PlayerWonGame += ChangeToWinState;
+            _ballSpawner.BallsAmountIsZero += ChangeToLoseState;
 
             ShowUI();
         }
@@ -30,6 +35,7 @@ namespace KasherOriginal.GlobalStateMachine
         {
             _cellsMatrixWatcher.BallOutOfBorder -= ChangeToLoseState;
             _cellsMatrixWatcher.PlayerWonGame -= ChangeToWinState;
+            _ballSpawner.BallsAmountIsZero -= ChangeToLoseState;
             
             _shootableBallsContainer.DeleteAllBalls();
 

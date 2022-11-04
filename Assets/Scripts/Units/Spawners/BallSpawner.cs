@@ -1,9 +1,11 @@
+using System;
 using Zenject;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Threading.Tasks;
-using KasherOriginal.Factories.BallFactory;
 using KasherOriginal.Settings;
 using Random = UnityEngine.Random;
+using KasherOriginal.Factories.BallFactory;
 
 public class BallSpawner : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class BallSpawner : MonoBehaviour
         _gameSettings = gameSettings;
         _shootableBallsContainer = shootableBallsContainer;
     }
+
+    public event UnityAction BallsAmountIsZero;
 
     [SerializeField] private BallColorDecorator[] _ballColorDecorators;
 
@@ -36,23 +40,24 @@ public class BallSpawner : MonoBehaviour
 
     public async Task<GameObject> CreateMovingBall()
     {
+        if (!_shootableBallsContainer.CanTakeCurrentBall())
+        {
+            BallsAmountIsZero?.Invoke();
+            return null;
+        }
+        
         if (!isActiveAndEnabled)
         {
             return null;
         }
 
-        if (_shootableBallsContainer.CanTakeCurrentBall())
-        {
-            Ball ball = _shootableBallsContainer.GetCurrentBall();
+        Ball ball = _shootableBallsContainer.GetCurrentBall();
 
-            GameObject ballInstance = await _ballsFactory.CreateMovableInstance(_spawnPosition.position, ball);
+        GameObject ballInstance = await _ballsFactory.CreateMovableInstance(_spawnPosition.position, ball);
         
-            _shootableBallsContainer.DeleteBall(ball);
+        _shootableBallsContainer.DeleteBall(ball);
 
-            return ballInstance;
-        }
-
-        return null;
+        return ballInstance;
     }
 
     public async Task<GameObject> CreateStaticBall(Vector2 position, BallTypeBehavior ballType)
