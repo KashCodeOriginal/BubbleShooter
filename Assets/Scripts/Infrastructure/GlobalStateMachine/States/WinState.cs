@@ -1,6 +1,7 @@
 ﻿using KasherOriginal.Factories.UIFactory;
 using KasherOriginal.Factories.BallFactory;
 using KasherOriginal.Factories.AbstractFactory;
+using UnityEngine;
 
 namespace KasherOriginal.GlobalStateMachine
 {
@@ -17,20 +18,43 @@ namespace KasherOriginal.GlobalStateMachine
         private readonly IBallsFactory _ballsFactory;
         private readonly IAbstractFactory _abstractFactory;
 
+        private GameObject _gameWinScreenInstance;
+        private GameWinScreen _gameWinScreen;
+
 
         public override void Enter()
         {
             ShowUI();
         }
 
-        private void ShowUI()
+        public override void Exit()
         {
-            _uiFactory.CreateGameLoseScreen();
+            HideUI();
+            
+            _ballsFactory.DestroyAllInstances();
+            
+            _abstractFactory.DestroyAllInstances();
+        }
+
+        private async void ShowUI()
+        {
+            _gameWinScreenInstance = await _uiFactory.CreateGameLoseScreen();
+
+            _gameWinScreen = _gameWinScreenInstance.GetComponent<GameWinScreen>();
+
+            _gameWinScreen.ButtonToMenuClicked += ChangeStateToMenu;
         }
         
         private void HideUI()
         {
-            _uiFactory.DestroyGameLoseScreen();
+            _gameWinScreen.ButtonToMenuClicked -= ChangeStateToMenu;
+            
+            _uiFactory.DestroyGameWinScreen();
+        }
+
+        private void ChangeStateToMenu()
+        {
+            Context.StateMachine.SwitchState<MainMenuState>();
         }
     }
 }

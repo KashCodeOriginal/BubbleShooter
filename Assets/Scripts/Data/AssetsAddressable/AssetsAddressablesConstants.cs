@@ -10,6 +10,7 @@ namespace KasherOriginal.AssetsAddressable
         public const string MAIN_MENU_SCREEN = "MainMenuScreen";
         public const string GAMEPLAY_SCREEN = "GameplayScreen";
         public const string GAME_LOSE_SCREEN = "GameLoseScreen";
+        public const string GAME_WIN_SCREEN = "GameWinScreen";
     
         public const string BASE_MOVING_BALL_CONFIG = "BaseMovingBallConfig";
         public const string BASE_STATIC_BALL_CONFIG = "BaseStaticBallConfig";

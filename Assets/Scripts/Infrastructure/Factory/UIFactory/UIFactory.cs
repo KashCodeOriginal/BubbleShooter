@@ -79,14 +79,18 @@ namespace KasherOriginal.Factories.UIFactory
             Object.Destroy(GameLoseScreen);
         }
 
-        public Task<GameObject> CreateGameWinScreen()
+        public async Task<GameObject> CreateGameWinScreen()
         {
-            throw new System.NotImplementedException();
+            var gameWinScreenPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.GAME_WIN_SCREEN);
+
+            GameWinScreen = _container.InstantiatePrefab(gameWinScreenPrefab);
+
+            return GameWinScreen;
         }
 
         public void DestroyGameWinScreen()
         {
-            throw new System.NotImplementedException();
+            Object.Destroy(GameWinScreen);
         }
     }
 }
