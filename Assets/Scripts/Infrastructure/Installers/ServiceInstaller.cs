@@ -8,7 +8,7 @@ using KasherOriginal.Factories.BallFactory;
 public class ServiceInstaller : MonoInstaller
 {
     [SerializeField] private GameSettings _gameSettings;
-    
+
     public override void InstallBindings()
     {
         BindUIFactory();

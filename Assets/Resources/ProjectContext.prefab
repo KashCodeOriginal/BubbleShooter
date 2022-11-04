@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameSettings: {fileID: 11400000, guid: 0074675e312d64c42b17a885da92b6a5, type: 2}
+  _gameMusicService: {fileID: 0}
 --- !u!1 &6349523702478717856
 GameObject:
   m_ObjectHideFlags: 0

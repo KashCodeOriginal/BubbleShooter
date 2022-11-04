@@ -23,13 +23,9 @@ namespace KasherOriginal.GlobalStateMachine
             OnSceneLoadingComplete();
         }
 
-        public override void Exit()
-        {
-            HideUI();
-        }
-
         private void OnSceneLoadingComplete()
         {
+            HideUI();
             Context.StateMachine.SwitchState<MainMenuState>();
         }
 
