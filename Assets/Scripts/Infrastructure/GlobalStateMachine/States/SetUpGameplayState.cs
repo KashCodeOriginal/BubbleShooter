@@ -5,7 +5,7 @@ using KasherOriginal.Factories.AbstractFactory;
 
 namespace KasherOriginal.GlobalStateMachine
 {
-    public class SetUpGameplayState : StateOneParam<GameInstance, bool>
+    public class SetUpGameplayState : StateOneParam<GameInstance, int>
     {
         public SetUpGameplayState(GameInstance context, IAssetsAddressableService assetsAddressableService,
             IAbstractFactory abstractFactory, GameSettings gameSettings, IGeneratedLevelCreator generatedLevelCreator) : base(context)
@@ -23,7 +23,7 @@ namespace KasherOriginal.GlobalStateMachine
 
         private LevelsContainer _levelsContainer;
 
-        public override async void Enter(bool isLevelRandom)
+        public override async void Enter(int index)
         {
             var mapPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.BASE_MAP);
             var cannonPrefab = await _assetsAddressableService.GetAsset<GameObject>(AssetsAddressablesConstants.CANNON);
@@ -35,12 +35,12 @@ namespace KasherOriginal.GlobalStateMachine
             var mapInstance = _abstractFactory.CreateInstance(mapPrefab, _gameSettings.BaseMapPosition);
             var levelBuilderInstance = _abstractFactory.CreateInstance(levelBuilderPrefab, Vector3.zero);
 
-            SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance, isLevelRandom);
+            SetUp(cannonInstance, cannonControlInstance, levelBuilderInstance, index);
             
             Context.StateMachine.SwitchState<GameplayState, BallSpawner, ILevelBuilder>(levelBuilderInstance.GetComponentInChildren<BallSpawner>(), levelBuilderInstance.GetComponent<ILevelBuilder>());
         }
 
-        private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder, bool isLevelRandom)
+        private void SetUp(GameObject cannon, GameObject cannonControl, GameObject levelBuilder, int levelIndex)
         {
             if (cannonControl.TryGetComponent(out IRotatable rotatable))
             {
@@ -59,7 +59,7 @@ namespace KasherOriginal.GlobalStateMachine
             
             if (levelBuilder.TryGetComponent(out ILevelBuilder levelBuilderComponent))
             {
-                if (isLevelRandom)
+                if (levelIndex == -1)
                 {
                     levelBuilderComponent.SetLevelGenerationWay(true, null);
                     return;
@@ -68,7 +68,7 @@ namespace KasherOriginal.GlobalStateMachine
                 _levelsContainer = new LevelsContainer();
 
                 var currentCell =
-                    _generatedLevelCreator.CreateLevel(_levelsContainer.Levels[Random.Range(0, _levelsContainer.Levels.Length)]);
+                    _generatedLevelCreator.CreateLevel(_levelsContainer.Levels[levelIndex]);
 
                 levelBuilderComponent.SetLevelGenerationWay(false, currentCell);
             }

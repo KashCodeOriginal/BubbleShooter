@@ -44,7 +44,11 @@ namespace KasherOriginal.GlobalStateMachine
             _cellsMatrixWatcher.BallOutOfBorder -= ChangeToLoseState;
             _levelBuilder.PlayerWonGame -= ChangeToWinState;
             _ballSpawner.BallsAmountIsZero -= ChangeToLoseState;
-            _gamePauseScreen.BackToMenuButtonClicked -= ChangeToLoseState;
+
+            if (_gamePauseScreen != null)
+            {
+                _gamePauseScreen.BackToMenuButtonClicked -= ChangeToLoseState;
+            }
             
             _shootableBallsContainer.DeleteAllBalls();
             _uiFactory.DestroyGamePauseScreen();

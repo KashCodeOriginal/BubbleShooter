@@ -15,21 +15,23 @@ namespace KasherOriginal.GlobalStateMachine
         
         public override async void Enter()
         {
-            ShowUI();
+            //ShowUI();
             
             var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.MAIN_MENU_LEVEL_NAME);
             await asyncOperationHandle.Task;
+            
+            //HideUI();
 
             OnSceneLoadingComplete();
         }
 
         private void OnSceneLoadingComplete()
         {
-            HideUI();
+            
             Context.StateMachine.SwitchState<MainMenuState>();
         }
 
-        private void ShowUI()
+        /*private void ShowUI()
         {
             _uiFactory.CreateLoadingScreen();
         }
@@ -37,6 +39,6 @@ namespace KasherOriginal.GlobalStateMachine
         private void HideUI()
         {
             _uiFactory.DestroyLoadingScreen();
-        }
+        }*/
     }
 }

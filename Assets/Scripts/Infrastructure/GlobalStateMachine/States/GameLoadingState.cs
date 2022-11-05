@@ -4,7 +4,7 @@ using KasherOriginal.Factories.UIFactory;
 
 namespace KasherOriginal.GlobalStateMachine
 {
-    public class GameLoadingState : StateOneParam<GameInstance, bool>
+    public class GameLoadingState : StateOneParam<GameInstance, int>
     {
         public GameLoadingState(GameInstance context, IUIFactory uiFactory) : base(context)
         {
@@ -13,29 +13,29 @@ namespace KasherOriginal.GlobalStateMachine
 
         private readonly IUIFactory _uiFactory;
 
-        public override async void Enter(bool isLevelRandom)
+        public override async void Enter(int levelIndex)
         {
             ShowUI();
             
             var asyncOperationHandle = Addressables.LoadSceneAsync(AssetsAddressablesConstants.GAMEPLAY_LEVEL_NAME);
             await asyncOperationHandle.Task;
             
-            Context.StateMachine.SwitchState<SetUpGameplayState, bool>(isLevelRandom);
+            Context.StateMachine.SwitchState<SetUpGameplayState, int>(levelIndex);
         }
 
         public override void Exit()
         {
-            HideUI();   
+            HideUI();
         }
 
         private void ShowUI()
         {
-            _uiFactory.CreateLoadingScreen();
+            //_uiFactory.CreateLoadingScreen();
         }
 
         private void HideUI()
         {
-            _uiFactory.DestroyLoadingScreen();
+            //_uiFactory.DestroyLoadingScreen();
         }
     }
 }
